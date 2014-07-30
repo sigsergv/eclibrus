@@ -21,7 +21,7 @@ to compile release version:
 MacOS X
 =======
     
-    ~/Qt-5.2.1-static/bin/qmake
+    ~/Qt/5.3/clang_64/bin/qmake
     make
-    ~/Qt-5.2.1-static/bin/macdeployqt eclibrus.app -dmg
+    ~/Qt/5.3/clang_64/bin/macdeployqt eclibrus.app -dmg
     open eclibrus.dmg
