@@ -1,0 +1,16 @@
+Source: eclibrus
+Section: text
+Priority: extra
+Maintainer: Sergey Stolyarov <sergei@regolit.com>
+Build-Depends: debhelper (>= 7.0.50~), qtbase5-dev (>= 5.2), qt5-qmake, zlib1g-dev, libqt5webkit5-dev(>= 5.2), qtdeclarative5-dev (>=5.2), 
+ libblkid-dev, pkg-config, libgstreamer0.10-dev, libgstreamer-plugins-base0.10-dev
+Standards-Version: 3.9.1
+Homepage: https://bitbucket.org/cancel/eclibrus/overview
+Vcs-Hg: https://bitbucket.org/cancel/eclibrus
+Vcs-Browser: https://bitbucket.org/cancel/eclibrus/src
+
+Package: eclibrus
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libqt4-sql-sqlite
+Description: FictionBook2 files organizer
+ Simple LibRusEc archives organizer.

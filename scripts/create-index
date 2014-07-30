@@ -1,0 +1,219 @@
+#!/usr/bin/env python2.7
+# -*- coding: utf-8 -*-
+'''
+Generate final index
+'''
+
+import os
+import shutil
+from zipfile import ZipFile
+from sys import exit
+import sqlite3
+
+# directory where clean book archives are located
+indir = '/home/data/lib.rus.ec/db'
+# target directory, where new final database to be written
+outdir = '/home/data/lib.rus.ec/db'
+outdir = '/home/cancel/downloads/lib.rus.ec'
+
+db_in = sqlite3.connect('library.db')
+cur_in = db_in.cursor()
+
+db_out_filename = os.path.join(outdir, 'librusec.eclib')
+try:
+    os.unlink(db_out_filename)
+except OSError:
+    pass
+db_out = sqlite3.connect(db_out_filename)
+cur_out = db_out.cursor()
+cur_out.execute('''CREATE TABLE eclib_book (book_id INTEGER PRIMARY KEY,
+        book_title VARCHAR,
+        book_comment VARCHAR,
+        book_lang VARCHAR,
+        archive_file_id INTEGER,
+        book_search_str VARCHAR
+        );''')
+
+cur_out.execute('''CREATE TABLE eclib_book_archive (archive_file_id INTEGER PRIMARY KEY,
+        archive_filename VARCHAR)''')
+
+RANGE_LEN = 100
+archives = os.listdir(indir)
+archive_index = 0
+for a in archives:
+    #break # DEBUG
+    fa = os.path.join(indir, a)
+    if not os.path.isfile(fa):
+        continue
+
+    if not a.endswith('.zip'):
+        continue
+
+    print 'Processing file %s' % a
+    zf = ZipFile(fa, 'r')
+    names = zf.namelist()
+    zf.close()
+    file_ids = [int(x[:-4]) for x in names]
+
+    archive_index += 1
+    cur_out.execute('INSERT INTO eclib_book_archive VALUES (?, ?)', (archive_index, a) )
+
+    start = 0
+    flen = len(file_ids)
+    xlen = 0
+    while True:
+        end = start + RANGE_LEN - 1
+        sr = file_ids[start:end]
+        if len(sr) == 0:
+            break
+        xlen += len(sr)
+        start = end
+
+        q = '''SELECT bid book_id, Title book_title, Title1 book_comment, Lang book_lang, 
+                Deleted
+            FROM libbook WHERE bid IN (%s)''' % (','.join([str(x) for x in sr]))
+        ins_q = 'INSERT INTO eclib_book VALUES(?, ?, ?, ?, ?, ?)'
+        res = cur_in.execute(q)
+        for r in res:
+            if r[4] == '1':
+                #print r[0], r[1], '|', r[2]
+                # skip books marked as DELETED
+                continue
+            ss = r[1].lower()
+            ins_r = r[0:4] + (archive_index, ss,)
+            cur_out.execute(ins_q, ins_r)
+
+# now process authors
+print 'Process authors'
+cur_out.execute('''CREATE TABLE eclib_author (author_id INTEGER PRIMARY KEY,
+        author_fname VARCHAR,
+        author_mname VARCHAR,
+        author_lname VARCHAR,
+        author_nick VARCHAR,
+        author_search_str VARCHAR)''')
+
+q = 'SELECT aid, FirstName, MiddleName, LastName, NickName FROM libavtors'
+res = cur_in.execute(q)
+ins_q = 'INSERT INTO eclib_author VALUES(?, ?, ?, ?, ?, ?)'
+
+for r in res:
+    #ss = ' '.join([x for x in r[1:5] if x!=''])
+    ss = r[3].lower() # ignore all but lastName
+    ss = ss.lower()
+    cur_out.execute(ins_q, r+(ss,))
+
+cur_out.execute('''CREATE TABLE eclib_book_author (book_author_id INTEGER PRIMARY KEY,
+        author_id INTEGER, 
+        book_id INTEGER,
+        ba_role VARCHAR(1));''')
+cur_out.execute('CREATE INDEX eclib_book_author_book ON eclib_book_author (book_id);')
+cur_out.execute('CREATE INDEX eclib_book_author_author ON eclib_book_author (author_id);')
+
+q = 'SELECT aid, bid, role FROM libavtor'
+res = cur_in.execute(q)
+ins_q = 'INSERT INTO eclib_book_author VALUES (NULL, ?, ?, ?)'
+
+for r in res:
+    cur_out.execute(ins_q, r)
+
+# get rid of empty book-author links
+q = '''SELECT ba.book_author_id 
+    FROM eclib_book_author ba LEFT JOIN eclib_book b 
+        ON b.book_id = ba.book_id 
+    WHERE b.book_id IS NULL'''
+res = cur_out.execute(q)
+
+empty_ba_links = [str(r[0]) for r in res]
+
+q = 'DELETE FROM eclib_book_author WHERE book_author_id IN (%s)' % ','.join(empty_ba_links)
+cur_out.execute(q)
+
+# get rid of empty authors
+q = '''SELECT a.author_id, ba.book_id
+    FROM eclib_author a LEFT JOIN eclib_book_author ba 
+        ON a.author_id = ba.author_id
+    WHERE ba.book_id IS NULL'''
+res = cur_out.execute(q)
+
+empty_authors = [str(r[0]) for r in res]
+
+q = 'DELETE FROM eclib_author WHERE author_id in (%s)' % ','.join(empty_authors)
+cur_out.execute(q)
+
+# now process sequences
+print 'Processing sequences'
+cur_out.execute('''CREATE TABLE eclib_sequence (seq_id INTEGER PRIMARY KEY,
+        seq_name VARCHAR,
+        seq_parent INTEGER,
+        seq_search_str VARCHAR)''')
+
+q = 'SELECT sid, seqname, parent FROM libseqs'
+res = cur_in.execute(q)
+ins_q = 'INSERT INTO eclib_sequence VALUES (?,?,?,?)'
+
+for r in res:
+    ss = r[1].lower()
+    cur_out.execute(ins_q, r+(ss,))
+
+cur_out.execute('''CREATE TABLE eclib_book_seq (book_seq_id INTEGER PRIMARY KEY,
+        seq_id INTEGER,
+        book_id INTEGER,
+        book_seq_num INTEGER)''')
+cur_out.execute('CREATE INDEX eclib_book_seq_book ON eclib_book_seq (book_id)')
+cur_out.execute('CREATE INDEX eclib_book_seq_seq ON eclib_book_seq (seq_id)')
+
+q = 'SELECT sid, bid, sn FROM libseq'
+res = cur_in.execute(q)
+ins_q = 'INSERT INTO eclib_book_seq (seq_id, book_id, book_seq_num) VALUES (?,?,?)'
+
+for r in res:
+    cur_out.execute(ins_q, r)
+
+# get rid of broken sequences links
+q = '''SELECT a.book_seq_id FROM eclib_book_seq a LEFT JOIN eclib_book b ON a.book_id=b.book_id 
+    WHERE b.book_id IS null;'''
+res = cur_out.execute(q)
+broken_seqs = [str(r[0]) for r in res]
+
+q = 'DELETE FROM eclib_book_seq WHERE book_seq_id IN (%s)' % (','.join(broken_seqs))
+cur_out.execute(q)
+
+# get rid of empty sequences (i.e. series with no books)
+q = '''SELECT a.seq_id FROM eclib_sequence a LEFT JOIN eclib_book_seq b ON a.seq_id=b.seq_id 
+    WHERE b.book_seq_id IS NULL;'''
+res = cur_out.execute(q)
+empty_seqs = [str(r[0]) for r in res]
+
+q = 'DELETE FROM eclib_sequence WHERE seq_id IN (%s)' % (','.join(empty_seqs))
+cur_out.execute(q)
+
+# process genres
+print 'Processing genres'
+cur_out.execute('''CREATE TABLE eclib_genre (genre_id INTEGER PRIMARY KEY,
+        genre_code VARCHAR,
+        genre_name_ru VARCHAR,
+        genre_name_en VARCHAR,
+        genre_search_str VARCHAR)''')
+
+q = 'SELECT gid, code, gdesc, edesc FROM libgenres'
+res = cur_in.execute(q)
+ins_q = 'INSERT INTO eclib_genre VALUES (?,?,?,?,?)'
+
+for r in res:
+    ss = r[1]+' '+r[2]+' '+r[3]
+    ss = ss.lower()
+    cur_out.execute(ins_q, r+(ss,))
+
+cur_out.execute('''CREATE TABLE eclib_book_genre (genre_id INTEGER,
+    book_id INTEGER)''')
+cur_out.execute('CREATE INDEX eclib_book_genre_book ON eclib_book_genre (book_id)')
+cur_out.execute('CREATE INDEX eclib_book_genre_genre ON eclib_book_genre (genre_id)')
+
+q = 'SELECT gid, bid FROM libgenre'
+res = cur_in.execute(q)
+ins_q = 'INSERT INTO eclib_book_genre VALUES (?,?)'
+
+for r in res:
+    cur_out.execute(ins_q, r)
+
+db_out.commit()

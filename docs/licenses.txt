@@ -1,0 +1,4 @@
+Product itself: GPLv2
+
+Icons (resources/images/book-script-16x16.png, resources/images/save-to-device-16x16.png):
+    http://www.aha-soft.com/

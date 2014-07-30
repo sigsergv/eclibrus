@@ -1,0 +1,53 @@
+FILES=libavtor.sql libavtors.sql libbook.sql libgenre.sql libgenremeta.sql libgenres.sql libjoinedbooks.sql libmag.sql libmags.sql libquality.sql librate.sql libseq.sql libseqs.sql libsrclang.sql
+FILES_GZ=$(shell echo $(FILES) | sed -e 's!.sql!.sql.gz!g')
+FILES_SQLITE=$(shell echo $(FILES) | sed -e 's!.sql!.sqlite!g')
+
+DIRS=01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
+DIRS_Z=$(shell echo $(DIRS) | sed -e 's!\([0-9][0-9]\)!\1.zip!g')
+
+default:
+	@echo default empty action
+
+clean-all: clean-gz clean-sql
+
+clean-gz:
+	rm -f *.sql.gz
+
+clean-sql:
+	rm -f *.sql *.sqlite
+
+library.db: convert
+	rm -f library.db
+	@for f in $(FILES_SQLITE); do echo $$f; sqlite3 library.db < $$f; done
+
+download: $(FILES_GZ)
+
+convert: $(FILES_SQLITE)
+
+unpack: $(FILES)
+
+%.sqlite: %.sql
+	./mysql2sqlite $< $@
+
+%.sql: %.sql.gz
+	gunzip -c $< > $@
+
+%.sql.gz:
+	wget http://lib.rus.ec/sql/$@
+
+default:
+	    @echo do nothing
+
+clear-zip:
+	    rm -f *.zip
+
+clear-dirs:
+	rm -rf $(DIRS)
+
+compress: $(DIRS_Z)
+	    
+%.zip: %
+	    @echo compressing $<
+		    cd $< && zip ../$@ *.fb2
+
+

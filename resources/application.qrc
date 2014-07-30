@@ -1,0 +1,20 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+  <file>index.ru.html</file>
+  <file>default.css</file>
+  <file>default.js</file>
+  <file>start.html</file>
+  <file>images/book-script-16x16.png</file>
+  <file>images/book-script-bw-16x16.png</file>
+  <file>images/download-16x16.png</file>
+  <file>images/download-bw-16x16.png</file>
+  <file>images/save-to-device-16x16.png</file>
+  <file>images/save-to-device-bw-16x16.png</file>
+  <!--<file>test.jpg</file>-->
+  <file alias="eclibrus-32.png">icons/32x32/Eclibrus.png</file>
+  <file alias="eclirus-48.png">icons/48x48/Eclibrus.png</file>
+  <file alias="eclirus-64.png">icons/64x64/Eclibrus.png</file>
+  <file alias="eclirus-128.png">icons/128x128/Eclibrus.png</file>
+
+</qresource>
+</RCC>

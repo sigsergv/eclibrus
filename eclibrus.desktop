@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Name=Eclibrus
+GenericName=E-books organizer
+GenericName[ru]=Каталогизатор электронных книг
+Comment=E-books organizer, primarily for FictionBook2 files
+Comment[ru]=Каталогизатор электронных книг, в основном для FictionBook2-файлов
+Type=Application
+Icon=Eclibrus
+Categories=Office;Literature;
+Exec=eclibrus
+

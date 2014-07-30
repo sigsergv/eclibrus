@@ -1,0 +1,40 @@
+#!/usr/bin/env python2.7
+# -*- coding: utf-8 -*-
+'''
+Scan archives, extract book ids from there and fill database with data.
+'''
+
+import os
+from zipfile import ZipFile
+import sqlite3
+
+db = sqlite3.connect('library.db')
+#db = sqlite3.connect('archives.db')
+cur = db.cursor()
+
+cur.execute('DROP TABLE IF EXISTS _archives;');
+cur.execute('CREATE TABLE _archives (archive_filename STRING, book_id INTEGER);')
+
+indir = '/home/data/lib.rus.ec/Lib.Rus.Ec + MyHomeLib[FB2]/lib.rus.ec'
+
+archives = os.listdir(indir)
+
+for a in archives:
+    print 'processing', a
+    full_fn = os.path.join(indir, a)
+    zf = ZipFile(full_fn, 'r')
+    names = zf.namelist()
+    for n in names:
+        dp = n.index('.')
+        n = n[:dp]
+        try:
+            n = int(n)
+        except ValueError:
+            print 'Invalid value:', n
+            exit(2)
+
+        q = 'INSERT INTO _archives VALUES (?, ?)'
+        cur.execute(q, (a, n) )
+
+cur.execute('CREATE index _archives_book_id_index ON _archives (book_id);')
+db.commit();

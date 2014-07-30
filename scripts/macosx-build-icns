@@ -1,0 +1,27 @@
+#!/bin/bash
+
+BASE_ICON_NAME=Eclibrus.png
+BASEDIR=$(pwd)
+ROOT=$(dirname "${BASEDIR}")
+
+
+# build icns file from png images
+rm -rf eclibrus.iconset
+ICONSET_DIR=${BASEDIR}/eclibrus.iconset
+mkdir "${ICONSET_DIR}"
+
+cd "${ROOT}/resources/icons"
+cp "16x16/${BASE_ICON_NAME}" "${ICONSET_DIR}/icon_16x16.png"
+cp "32x32/${BASE_ICON_NAME}" "${ICONSET_DIR}/icon_32x32.png"
+cp "32x32/${BASE_ICON_NAME}" "${ICONSET_DIR}/icon_16x16@2x.png"
+cp "48x48/${BASE_ICON_NAME}" "${ICONSET_DIR}/icon_48x48.png"
+cp "64x64/${BASE_ICON_NAME}" "${ICONSET_DIR}/icon_64x64.png"
+cp "64x64/${BASE_ICON_NAME}" "${ICONSET_DIR}/icon_32x32@2x.png"
+cp "128x128/${BASE_ICON_NAME}" "${ICONSET_DIR}/icon_128x128.png"
+cp "256x256/${BASE_ICON_NAME}" "${ICONSET_DIR}/icon_256x256.png"
+cp "256x256/${BASE_ICON_NAME}" "${ICONSET_DIR}/icon_128x128@2x.png"
+#cp "512x512/${BASE_ICON_NAME}" "${ICONSET_DIR}/icon_512x512.png"
+cp "512x512/${BASE_ICON_NAME}" "${ICONSET_DIR}/icon_256x256@2x.png"
+
+cd "${BASEDIR}"
+iconutil --convert icns eclibrus.iconset

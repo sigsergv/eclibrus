@@ -1,0 +1,169 @@
+#!/usr/bin/env python
+# # -*- coding: utf-8 -*-
+
+from sys import argv
+from sys import exit
+import codecs
+import re
+
+if len(argv) != 3:
+    print 'Usage: %s <INFILE> <OUTFILE>' % argv[0]
+    exit(0)
+
+in_fp = codecs.open(argv[1], 'r', encoding='utf-8')
+out_fp = codecs.open(argv[2], 'w', encoding='utf-8')
+
+table_name_re = re.compile('CREATE TABLE `([^`]+)`')
+table_column_re = re.compile('^\s*`([A-Za-z0-9]+)` ([a-z0-9(),]+) (.+)')
+pk_column_re = re.compile('PRIMARY KEY \(`([a-z0-9]+)`\)')
+
+tables = dict()
+
+for line in in_fp:
+
+    while True:
+        if line[-1] != unichr(0x2028):
+            break
+        # this is a stupid line separator, read next line and concat
+        line += in_fp.readline()
+
+    line = line.strip()
+
+    if line.startswith('--'):
+        continue
+
+    if line.startswith('/*!') and line.endswith('*/;'):
+        continue
+
+    if line.startswith('LOCK TABLES') or line.startswith('UNLOCK TABLES;'):
+        continue
+
+    if line.startswith('CREATE TABLE `'):
+        # CREATE TABLE block just started
+        # first find table name
+        mo = table_name_re.search(line)
+        if mo is None:
+            print 'invalid line: ', line
+            exit(1)
+
+        table_name = mo.group(1)
+        out_fp.write('CREATE TABLE `%s` (\n' % table_name)
+        def_columns = list()
+        pk_column = False
+
+        for ct_line in in_fp:
+            ct_line = ct_line.strip()
+            # parse CREATE TABLE statement here
+            if ct_line.startswith(') ENGINE='):
+                # we've reached the final line of the statement so return to the main loop
+                columns = list()
+                for cd in def_columns:
+                    if cd[0] == pk_column:
+                        col_spec = '  %s INTEGER PRIMARY KEY' % cd[0]
+                    else:
+                        col_spec = '  %s %s' % tuple(cd)
+
+                    columns.append(col_spec)
+
+                out_fp.write(',\n'.join(columns))
+                out_fp.write('\n);\n')
+                out_fp.write('BEGIN;\n');
+                tables[table_name] = dict(columns_count=len(columns))
+                break
+            else:
+                # parse statement
+                mo = table_column_re.search(ct_line)
+                if mo is not None:
+                    # this is a column definition
+                    column_name = mo.group(1)
+                    column_type = mo.group(2)
+                    column_misc = mo.group(3)
+                    def_columns.append( [column_name, column_type] )
+                    continue
+
+                # check other defs
+                mo = pk_column_re.search(ct_line)
+                if mo is not None:
+                    # primary key
+                    pk_column = mo.group(1)
+                    continue
+
+                # ignore all other keys by now
+        continue
+
+    if line.startswith('INSERT INTO'):
+        # this is looooong insert statement, we need to parse it correctly
+        # char by char
+        _vp = line.index(' VALUES ')
+        tn = line[13:_vp-1]
+        columns_count = tables[tn]['columns_count']
+
+        line = line[_vp+7:]
+        
+        iterator = iter(line)
+
+        for c in iterator:
+            if c == '(':
+                # new record has started
+                rec = []
+                cv = ''
+                for d in iterator:
+                    if d == "'":
+                        # quoted part is started
+                        qp = ''
+                        for x in iterator:
+                            if x == '\\':
+                                # fetch next char
+                                try:
+                                    nc = iterator.next()
+                                except StopIteration:
+                                    print 'something wrong'
+                                    exit(2)
+                                x = x + nc
+                                if x == "\\'":
+                                    x = "''"
+                                elif x == '\\"':
+                                    x = '"'
+                                elif x == '\\\\':
+                                    x = '\\'
+                            elif x == "'":
+                                # quoted part is finished
+                                break
+                            qp += x
+                        cv = qp
+                        continue
+
+                    if d == ')':
+                        # record finished, so flush
+                        rec.append(cv)
+                        break
+                    if d == ',':
+                        rec.append(cv)
+                        cv = ''
+                        continue
+
+                    cv += d
+
+                if len(rec) != columns_count:
+                    print 'Invalid columns count! %d instead of %d' % (len(rec), columns_count)
+                    print 'Record:',
+                    for _ in rec: print _,
+                    exit(3)
+
+                out_fp.write('INSERT INTO `%s` VALUES (%s);\n' % (tn, ', '.join(["'%s'"%x for x in rec]) ));
+                #for _ in rec: print _,
+                #print '\n',
+
+        continue
+
+    out_fp.write(line+'\n')
+
+out_fp.write('COMMIT;\n');
+
+# sample
+# INSERT INTO `libseqs` VALUES (1,'Романы',0,9,0,'ru','a'),(2,'Повести',0,0,0,'ru','a'),(3,'Рассказы',0,0,0,'ru','p'),(4,'Эссе',0,0,0,'ru','a'),(5,'Поэмы',0,0,0,'ru','a'),(6,'Стихотворения',0,0,0,'ru'
+
+# remove all comments and other useless stuff
+
+in_fp.close()
+out_fp.close()

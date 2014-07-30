@@ -1,0 +1,90 @@
+#!/usr/bin/env python2.7
+# -*- coding: utf-8 -*-
+'''
+Repack archives: remove replaces, broken book files etc
+'''
+
+import os
+import shutil
+from zipfile import ZipFile, BadZipfile
+from sys import exit
+import sqlite3
+
+db = sqlite3.connect('library.db')
+cur = db.cursor()
+
+# this temporary table contains list of book ids for each original archive
+cur.execute('CREATE TEMPORARY TABLE _archives (archive_filename STRING, book_id INTEGER);')
+cur.execute('CREATE index _archives_book_id_index ON _archives (book_id);')
+
+# directory where original (complete) book archives are located
+indir = u'/home/data/lib.rus.ec/_Lib.rus.ec - Официальная/lib.rus.ec'
+# target directory, where new (clean) book files to be stored
+outdir = '/home/data/lib.rus.ec/db'
+
+print 'Initial cleanup (remove all files in the target directory)'
+# create target firectories struct
+for n in range(80):
+    dn = '%02d' % (n+1)
+    dn = os.path.join(outdir, dn)
+    if os.path.isdir(dn):
+        shutil.rmtree(dn)
+    os.mkdir(dn)
+
+tmpdir = os.path.join(outdir, '_tmp')
+
+# fetch list of "good" books
+res = cur.execute('SELECT a.bid from libbook a left join libjoinedbooks b ON a.bid=b.BadId WHERE b.BadId IS NULL;')
+good_bids = [int(x[0]) for x in res]
+good_names = ['%d.fb2'%x for x in good_bids]
+
+def extract_file(z, bid):
+    # construct target names
+    ddn = (bid % 80) + 1
+    s_bid = '%02d' % ddn
+    target_dir = os.path.join(outdir, s_bid)
+
+    z.extract('%d.fb2' % bid, path=target_dir)
+
+# now process original archives
+archives = os.listdir(indir)
+
+for a in archives:
+    print 'processing', a
+    full_fn = os.path.join(indir, a)
+    try:
+        zf = ZipFile(full_fn, 'r')
+    except BadZipfile, e:
+        print e
+        print full_fn
+        exit(1)
+
+    if os.path.isdir(tmpdir):
+        shutil.rmtree(tmpdir)
+        os.mkdir(tmpdir)
+   
+    # fill our temporary table with archive contents
+    cur.execute('DELETE FROM _archives;')
+    names = zf.namelist()
+    for n in names:
+        dp = n.index('.')
+        n = n[:dp]
+        try:
+            n = int(n)
+        except ValueError:
+            print 'Invalid value:', n
+            exit(2)
+
+        q = 'INSERT INTO _archives VALUES (?, ?)'
+        cur.execute(q, (a, n) )
+    
+    # now find good books from the archive
+    res = cur.execute("SELECT a.bid from libbook a LEFT JOIN libjoinedbooks b ON a.bid=b.BadId JOIN _archives c ON c.book_id=a.bid WHERE b.BadId IS NULL;" )
+    archive_good_ids = [x[0] for x in res]
+
+    for bid in archive_good_ids:
+        extract_file(zf, bid)
+
+    zf.close()
+
+db.commit();

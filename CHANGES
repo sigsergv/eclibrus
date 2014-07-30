@@ -1,0 +1,27 @@
+1.3
+===
+
+* quazip version updated
+* basic mac os support
+* migrated to Qt5
+
+1.2
+===
+
+* language detection
+* fixed some searches and loayouts
+* minor improvement: delete empty folders on device
+
+1.1
+===
+
+* minor translation fixes
+* new icons
+* added optional icon "download book"
+
+1.0
+===
+
+* added middle click support: open link in new tab
+* translation fixes
+* some usability improvements

@@ -1,0 +1,26 @@
+Overview
+========
+
+This document describes Eclib URI scheme.
+
+Eclib URI structure
+===================
+
+Eclib URI has the following structure:
+
+    eclib:{method-spec}?{query-string}
+
+where ``{method-spec}`` is a method (activity) name (corresponds to URL path attribute, assume host is empty), 
+{query-string} — is a regular URI query string.
+
+Methods
+=======
+
+This section describes all available activities/methods.
+
+search/plain
+------------
+
+This method corresponds to simple plain search, typically it displays results from all available
+places (e.g. from authors, titles, books). Search results may also contain links pointing
+to more precise search results (e.g. link to “search in genres” page).

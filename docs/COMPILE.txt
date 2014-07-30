@@ -1,0 +1,27 @@
+Qt
+==
+
+Required Qt version >= 5.2
+
+Linux
+=====
+
+required dev-packages (beside Qt packages):
+
+* libblkid-dev
+
+Use the following command to build DEBUG version:
+
+    qmake -qt=5 eclibrus.pro "CONFIG+=debug"
+
+to compile release version:
+
+    qmake -qt=5 eclibrus.pro "CONFIG+=release"
+
+MacOS X
+=======
+    
+    ~/Qt-5.2.1-static/bin/qmake
+    make
+    ~/Qt-5.2.1-static/bin/macdeployqt eclibrus.app -dmg
+    open eclibrus.dmg

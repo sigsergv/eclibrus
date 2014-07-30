@@ -1,0 +1,64 @@
+#!/usr/bin/env python
+
+from sys import argv
+from sys import exit
+import re
+import os
+import datetime
+
+H_FILE_TPL = '''/*
+ * %(basename)s.h
+ *
+ * Created on: %(date)s
+ * Author: Sergei Stolyarov
+ */
+
+#ifndef %(defmark)s
+#define %(defmark)s
+
+#endif // %(defmark)s
+'''
+
+CPP_FILE_TPL = '''/*
+ * %(basename)s.cpp
+ *
+ * Created on: %(date)s
+ * Author: Sergei Stolyarov
+ */
+
+#include <QtDebug>
+
+#include "%(basename)s.h"
+'''
+
+def help():
+    print "Usage:\n    %s BASENAME" % argv[0]
+
+if len(argv) != 2:
+    help()
+    exit(1)
+
+basename = argv[1]
+mo = re.match("^[0-9a-z]+$", basename)
+if mo is None:
+    print "Invalid BASENAME"
+    exit(1)
+
+now = datetime.datetime.now()
+defmark = "_%s_H_" % basename.upper()
+fdate = now.strftime("%b %d, %Y")
+
+h_file = H_FILE_TPL % dict(basename=basename, date=fdate, defmark=defmark)
+cpp_file = CPP_FILE_TPL % dict(basename=basename, date=fdate)
+
+f = "%s.h" % basename
+if not os.path.isfile(f):
+    fd = open(f, "w")
+    fd.write(h_file)
+    fd.close()
+
+f = "%s.cpp" % basename
+if not os.path.isfile(f):
+    fd = open(f, "w")
+    fd.write(cpp_file)
+    fd.close()

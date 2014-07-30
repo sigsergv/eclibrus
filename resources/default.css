@@ -1,0 +1,137 @@
+body, p, table, div {
+    font-family: "Liberation Sans", Verdana, Tahoma, Arial, sans-serif;
+    font-size: 14px;
+}
+
+body {
+    background-color: #fff;
+}
+
+div.p {
+    text-indent: 20px;
+    margin-bottom: 10px;
+}
+div.error {
+    color: #e00;
+}
+div.inline {
+    display: inline-block;
+}
+a, span.link {
+    color: #00f;
+    text-decoration: underline;
+    cursor: pointer;
+}
+a.more {
+    color: #080;
+}
+div.links-list span.book, div.pager a, span.item {
+    margin: 0 5px 2px 0;
+    background-color: #eee;
+    border-radius: 5px;
+    padding: 0 5px 2px 5px;
+    line-height: 150%;
+}
+div.links-list span.book {
+    padding-top: 5px;
+    line-height: 180%;
+}
+div.links-list > a {
+    background-color: #eee;
+    border-radius: 5px;
+    padding: 0 2px 0 2px;
+    line-height: 150%;
+}
+div.links-list a:hover, div.links-list span.book:hover {
+    background-color: #fee;
+}
+
+div.mid-vspacer {
+    height: 10px;
+}
+
+div.clear {
+    clear: both;
+}
+span.translator, span.gray {
+    color: #999;
+    font-weight: bold;
+}
+
+/* book search results styles */
+div.book {
+    background-color: #F5F5F5;
+    padding: 5px;
+    border-radius: 10px;
+    /*border: 1px solid #C7C2BB;*/
+    margin: 3px;
+}
+div.book div.title {
+    font-weight: bold;
+}
+div.book div.genres, div.book div.sequences, div.book div.authors {
+    margin-left: 10px;
+}
+div.book a.translator {
+    color: #8587C7;
+}
+
+/* book preview page styles */
+div.book-card div.title {
+    font-size: 25px;
+}
+div.book-card div.comment {
+    color: #999;
+    font-size: 12px;
+}
+div.book-card div.annotation {
+    background-color: #eee;
+    padding: 10px;
+    margin: 5px 0 0 0;
+    border-radius: 10px;
+    float: left;
+}
+div.book-card div.cover {
+    float: left;
+}
+
+/* author card styles */
+
+/*
+div.books-search div.book a.translator:before {
+    content: "переводчик ";
+    font-weight: bold;
+    font-style: italic;
+}
+*/
+a:hover {
+    color: #f00 !important;
+    /*text-decoration: none;*/
+}
+
+div.read-book-now, div.save-to-device, div.download-book {
+    background: 0 0 no-repeat;
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    cursor: pointer;
+}
+div.read-book-now {
+    background-image: url(qrc:images/book-script-bw-16x16.png);
+}
+div.read-book-now:hover {
+    background-image: url(qrc:images/book-script-16x16.png);
+}
+div.save-to-device {
+    background-image: url(qrc:images/save-to-device-bw-16x16.png)
+}
+div.save-to-device:hover {
+    background-image: url(qrc:images/save-to-device-16x16.png)
+}
+div.download-book {
+    background-image: url(qrc:images/download-bw-16x16.png)
+}
+div.download-book:hover {
+    background-image: url(qrc:images/download-16x16.png)
+}
+

@@ -1,0 +1,30 @@
+eclibrus (1.3-1) unstable; urgency=medium
+
+  * v1.3 release: qt5, macos
+
+ -- Sergey Stolyarov <sergei.stolyarov@regolit.com>  Mon, 10 Feb 2014 10:53:14 +0700
+
+eclibrus (1.2-1) unstable; urgency=low
+
+  * v1.2 release
+
+ -- Sergey Stolyarov <sergei@regolit.com>  Fri, 22 Mar 2013 21:42:41 +0600
+
+eclibrus (1.1-1) unstable; urgency=low
+
+  * v1.1 release
+
+ -- Sergey Stolyarov <sergei@regolit.com>  Sun, 10 Feb 2013 04:33:09 +0700
+
+eclibrus (1.0-1) unstable; urgency=low
+
+  * v1.0 release
+
+ -- Sergei Stolyarov <sergei@regolit.com>  Sun, 30 Dec 2012 23:09:39 +0700
+
+eclibrus (0.0.1-1) unstable; urgency=low
+
+  * initial release
+
+ -- Sergei Stolyarov <sergei@regolit.com>  Mon, 23 Jan 2012 12:32:48 +0700
+
