@@ -2,7 +2,7 @@
  * librarynam.h
  *
  * Created on: Dec 28, 2011
- * Author: Sergei Stolyarov
+ * Author: Sergey Stolyarov
  */
 
 #ifndef LIBRARYNAM_H_

@@ -2,7 +2,7 @@
  * settings.h
  *
  * Created on: Dec 27, 2011
- * Author: Sergei Stolyarov
+ * Author: Sergey Stolyarov
  */
 #ifndef SETTINGS_H_
 #define SETTINGS_H_

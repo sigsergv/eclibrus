@@ -4,7 +4,7 @@
  * This file is written for linux only, it won't compile for windows.
  *
  * Created on: Jan 07, 2012
- * Author: Sergei Stolyarov
+ * Author: Sergey Stolyarov
  */
 
 #include <QtCore>

@@ -4,7 +4,7 @@
  * Common HTML-renderers for EclibReply class
  *
  * Created on: Jan 3, 2012
- * Author: Sergei Stolyarov
+ * Author: Sergey Stolyarov
  */
 
 #ifndef _ECLIBRENDERERS_H_

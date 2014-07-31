@@ -2,7 +2,7 @@
  * db.h
  *
  * Created on: Dec 30, 2011
- * Author: Sergei Stolyarov
+ * Author: Sergey Stolyarov
  */
 #ifndef DB_H_
 #define DB_H_

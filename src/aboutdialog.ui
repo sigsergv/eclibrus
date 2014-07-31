@@ -89,7 +89,7 @@ Eclibrus is an opensource project licensed under GPLv2 terms.</string>
        <item>
         <widget class="QLabel" name="label_5">
          <property name="text">
-          <string>Sergei Stolyarov &lt;sergei@regolit.com&gt;</string>
+          <string>Sergey Stolyarov &lt;sergei@regolit.com&gt;</string>
          </property>
          <property name="wordWrap">
           <bool>true</bool>

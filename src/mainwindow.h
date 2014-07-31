@@ -2,7 +2,7 @@
  * mainwindow.h
  *
  * Created on: Dec 27, 2011
- * Author: Sergei Stolyarov
+ * Author: Sergey Stolyarov
  */
 
 #ifndef MAINWINDOW_H_

@@ -2,7 +2,7 @@
  * devicesconfigdialog.cpp
  *
  * Created on: Jan 7, 2012
- * Author: Sergei Stolyarov
+ * Author: Sergey Stolyarov
  */
 
 #include <QtWidgets>

@@ -2,7 +2,7 @@
  * eclibrenderers.cpp
  *
  * Created on: Jan 3, 2012
- * Author: Sergei Stolyarov
+ * Author: Sergey Stolyarov
  */
 #include <QtCore>
 #include <QtSql>

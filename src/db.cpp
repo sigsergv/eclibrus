@@ -2,7 +2,7 @@
  * db.cpp
  *
  * Created on: Dec 30, 2011
- * Author: Sergei Stolyarov
+ * Author: Sergey Stolyarov
  */
 
 #include <QtSql>

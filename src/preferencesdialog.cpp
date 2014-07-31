@@ -2,7 +2,7 @@
  * preferencesdialog.cpp
  *
  * Created on: Jan 18, 2012
- * Author: Sergei Stolyarov
+ * Author: Sergey Stolyarov
  */
 
 #include <QtWidgets>

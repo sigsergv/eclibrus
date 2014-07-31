@@ -2,7 +2,7 @@
  * addnewdevicedialog.cpp
  *
  * Created on: Jan 08, 2012
- * Author: Sergei Stolyarov
+ * Author: Sergey Stolyarov
  */
 
 #include <QtWidgets>

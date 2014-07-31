@@ -10,7 +10,7 @@ H_FILE_TPL = '''/*
  * %(basename)s.h
  *
  * Created on: %(date)s
- * Author: Sergei Stolyarov
+ * Author: Sergey Stolyarov
  */
 
 #ifndef %(defmark)s
@@ -23,7 +23,7 @@ CPP_FILE_TPL = '''/*
  * %(basename)s.cpp
  *
  * Created on: %(date)s
- * Author: Sergei Stolyarov
+ * Author: Sergey Stolyarov
  */
 
 #include <QtDebug>

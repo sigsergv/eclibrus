@@ -2,7 +2,7 @@
  * exportbooksthread.cpp
  *
  * Created on: Jan 09, 2012
- * Author: Sergei Stolyarov
+ * Author: Sergey Stolyarov
  */
 
 #include <QtCore>

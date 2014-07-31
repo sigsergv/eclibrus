@@ -2,7 +2,7 @@
  * managebooksondevicedialog.cpp
  *
  * Created on: Jan 13, 2012
- * Author: Sergei Stolyarov
+ * Author: Sergey Stolyarov
  */
 
 #include "managebooksondevicedialog.h"

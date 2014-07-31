@@ -2,7 +2,7 @@
  * preferencesdialog.h
  *
  * Created on: Jan 18, 2012
- * Author: Sergei Stolyarov
+ * Author: Sergey Stolyarov
  */
 
 #ifndef _PREFERENCESDIALOG_H_

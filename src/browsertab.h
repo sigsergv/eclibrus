@@ -2,7 +2,7 @@
  * browsertab.h
  *  
  * Created on: Dec 28, 2011
- * Author: Sergei Stolyarov
+ * Author: Sergey Stolyarov
  */ 
 #ifndef BROWSERTAB_H_
 #define BROWSERTAB_H_

@@ -2,7 +2,7 @@
  * eclibwebview.h
  *
  * Created on: Jan 11, 2012
- * Author: Sergei Stolyarov
+ * Author: Sergey Stolyarov
  */
 
 #ifndef _ECLIBWEBVIEW_H_

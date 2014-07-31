@@ -2,7 +2,7 @@
  * eclibreply.cpp
  *
  * Created on: Dec 28, 2011
- * Author: Sergei Stolyarov
+ * Author: Sergey Stolyarov
  */
 
 #include <QtDebug>

@@ -2,7 +2,7 @@
  * mountnotifier.h
  *
  * Created on: Jan 08, 2012
- * Author: Sergei Stolyarov
+ * Author: Sergey Stolyarov
  */
 
 #ifndef _MOUNTNOTIFIER_H_

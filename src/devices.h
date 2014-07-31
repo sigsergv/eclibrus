@@ -4,7 +4,7 @@
  * This module contains various functions to handle removable devices.
  *
  * Created on: Jan 07, 2012
- * Author: Sergei Stolyarov
+ * Author: Sergey Stolyarov
  */
 
 #ifndef _DEVICES_H_

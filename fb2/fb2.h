@@ -4,7 +4,7 @@
  * Various useful functions.
  *
  * Created on: Jan 08, 2012
- * Author: Sergei Stolyarov
+ * Author: Sergey Stolyarov
  */
 
 #ifndef FB2_FB2_H_

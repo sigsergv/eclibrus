@@ -2,7 +2,7 @@
  * devicesconfigdialog.h
  *
  * Created on: Jan 7, 2012
- * Author: Sergei Stolyarov
+ * Author: Sergey Stolyarov
  */
 #ifndef _DEVICESCONFIGDIALOG_H_
 #define _DEVICESCONFIGDIALOG_H_

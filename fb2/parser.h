@@ -2,7 +2,7 @@
  * parser.h
  *      
  * Created on: Jan 1, 2012
- * Author: Sergei Stolyarov
+ * Author: Sergey Stolyarov
  */     
 
 #ifndef FB2_PARSER_H_

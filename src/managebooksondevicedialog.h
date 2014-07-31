@@ -2,7 +2,7 @@
  * managebooksondevicedialog.h
  *
  * Created on: Jan 13, 2012
- * Author: Sergei Stolyarov
+ * Author: Sergey Stolyarov
  */
 
 #ifndef _MANAGEBOOKSONDEVICEDIALOG_H_

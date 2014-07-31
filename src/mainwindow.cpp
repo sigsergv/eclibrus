@@ -2,7 +2,7 @@
  * mainwindow.cpp
  *
  * Created on: Dec 27, 2011
- * Author: Sergei Stolyarov
+ * Author: Sergey Stolyarov
  */
 
 #include <QtWidgets>

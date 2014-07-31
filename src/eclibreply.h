@@ -2,7 +2,7 @@
  * eclibreply.h
  *
  * Created on: Dec 28, 2011
- * Author: Sergei Stolyarov
+ * Author: Sergey Stolyarov
  */
 
 #ifndef ECLIBREPLY_H_

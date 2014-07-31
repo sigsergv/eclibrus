@@ -26,7 +26,7 @@
     </message>
     <message>
         <location filename="../src/aboutdialog.ui" line="92"/>
-        <source>Sergei Stolyarov &lt;sergei@regolit.com&gt;</source>
+        <source>Sergey Stolyarov &lt;sergei@regolit.com&gt;</source>
         <translation>Сергей Столяров &lt;sergei@regolit.com&gt;</translation>
     </message>
     <message>

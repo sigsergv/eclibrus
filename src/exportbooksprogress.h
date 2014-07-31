@@ -2,7 +2,7 @@
  * exportbooksprogress.h
  *
  * Created on: Jan 09, 2012
- * Author: Sergei Stolyarov
+ * Author: Sergey Stolyarov
  */
 
 #ifndef _EXPORTBOOKSPROGRESS_H_
