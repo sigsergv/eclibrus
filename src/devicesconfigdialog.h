@@ -21,6 +21,7 @@ protected:
 
 protected slots:
     void addNewDevice();
+    void addWebDavDevice();
     void deleteSelectedDevices();
 
 private:

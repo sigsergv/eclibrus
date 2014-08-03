@@ -16,6 +16,8 @@
 
 #include "devices.h"
 #include "settings.h"
+#include "webdav/qwebdav_types.h"
+#include "webdav/qwebdav.h"
 
 namespace Eclibrus
 {
@@ -30,6 +32,9 @@ namespace Eclibrus
         return uuid.isEmpty();
     }
 
+    /**
+     * List of all connected removable devices (MSD only, linux only).
+     */
     QList<DeviceInfo> connectedRemovableDevices(bool force)
     {
 #ifdef Q_OS_LINUX
@@ -172,6 +177,15 @@ namespace Eclibrus
             DeviceInfo di;
             di.name = devRecord["name"].toString();
             di.uuid = devRecord["uuid"].toString();
+
+            QString devType = devRecord["type"].toString();
+
+            if (devType == "WEBDAV") {
+                di.devType = DeviceInfo::WEBDAV;
+                di.uri = devRecord["uri"].toString();
+            } else {
+                di.devType = DeviceInfo::MSD;
+            }
             devices << di;
         }
 
@@ -191,11 +205,29 @@ namespace Eclibrus
                 connectedMap[di.uuid] = di;
             }
             foreach (DeviceInfo di, registered) {
-                if (connectedMap.contains(di.uuid)) {
+                if (di.devType == DeviceInfo::MSD && connectedMap.contains(di.uuid)) {
                     QString name = di.name;
                     di = connectedMap[di.uuid];
                     di.name = name;
                     _connectedRegisteredDevicesCache << di;
+                }
+                if (di.devType == DeviceInfo::WEBDAV) {
+                    // check 
+                    qDebug() << "WebDav device check";
+                    QUrl uri(di.uri);
+
+                    QString host = uri.host();
+                    int port = uri.port();
+                    if (port == -1) {
+                        port = 80;
+                    }
+
+                    // check connection and add to cache
+                    QWebDav wd;
+                    wd.connectToHost(host, port, uri.userName(), uri.password());
+                    if (QWebDav::NoError == wd.lastError()) {
+                        _connectedRegisteredDevicesCache << di;
+                    }
                 }
             }
         }
@@ -208,8 +240,20 @@ namespace Eclibrus
         QList<QVariant> items;
         foreach (const DeviceInfo & di, devices) {
             QMap<QString, QVariant> rec;
+            switch (di.devType) {
+                case DeviceInfo::MSD:
+                    // default type is MSD
+                    break;
+
+                case DeviceInfo::WEBDAV:
+                    rec["type"] = "WEBDAV";
+                    break;
+            }
             rec["uuid"] = di.uuid;
             rec["name"] = di.name;
+            if (!di.uri.isEmpty()) {
+                rec["uri"] = di.uri;
+            }
             items << rec;
         }
         settings->setValue("Devices/registered", items);
@@ -317,6 +361,46 @@ namespace Eclibrus
 
             // recursively find all fictionbook files in this directory
             scanLibraryDir(QDir(library_root_path), books);
+        } else if (device.devType == DeviceInfo::WEBDAV) {
+            QWebDav wd;
+            QUrl uri(device.uri);
+
+            QString host = uri.host();
+            int port = uri.port();
+            if (port == -1) {
+                port = 80;
+            }
+
+            wd.connectToHost(host, port, uri.userName(), uri.password());
+            if (QWebDav::NoError != wd.lastError()) {
+                qDebug() << "Failed to init WebDav link: " << device.uri;
+            }            
+
+            // fetch items
+            QString path = uri.path();
+            if (!path.endsWith("/")) {
+                path += "/";
+            }
+            QList<WebDavItem> items = wd.list(path, true);
+            // do not rely upon item.name, always parse item.href
+            foreach (const WebDavItem & item, items) {
+                if (item.type == WebDavItemDirectory) {
+                    // we need files only, so ignore directories
+                    continue;
+                }
+                QUrl url;
+                url.setPath(item.href, QUrl::StrictMode);
+                QString fullPath = url.toDisplayString(QUrl::RemoveScheme|\
+                    QUrl::RemoveAuthority|QUrl::RemoveQuery|QUrl::RemoveFragment);
+                QString fileName = fullPath.split("/").last();
+
+                DeviceBookInfo bi;
+                bi.path = url.toDisplayString(QUrl::RemoveFilename|QUrl::RemoveScheme|\
+                    QUrl::RemoveAuthority|QUrl::RemoveQuery|QUrl::RemoveFragment);
+                bi.filesize = 0;
+                bi.filename = fileName;
+                books << bi;
+            }
         }
         return books;
     }

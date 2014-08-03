@@ -16,6 +16,7 @@ HEADERS += mainwindow.h \
     mountnotifier.h \
     exportbooksthread.h \
     exportbooksprogress.h \
+    webdavdeviceconfigdialog.h \
     db.h
 
 SOURCES += main.cpp \
@@ -35,6 +36,7 @@ SOURCES += main.cpp \
     mountnotifier.cpp \
     exportbooksthread.cpp \
     exportbooksprogress.cpp \
+    webdavdeviceconfigdialog.cpp \
     db.cpp
 
 FORMS += aboutdialog.ui \
@@ -42,7 +44,8 @@ FORMS += aboutdialog.ui \
     addnewdevicedialog.ui \
     managebooksondevicedialog.ui \
     preferencesdialog.ui \
-    exportbooksprogress.ui 
+    exportbooksprogress.ui \
+    webdavdeviceconfigdialog.ui
 
 CODECFORTR = UTF-8
 TRANSLATIONS = ../translations/eclibrus_ru.ts
@@ -60,7 +63,7 @@ INCLUDEPATH += ../
 RESOURCES = ../resources/application.qrc
 TARGET = eclibrus
 DESTDIR = ../
-LIBS += -L../fb2 -lfb2 -L../quazip -lquazip -lz
+LIBS += -L../fb2 -lfb2 -L../webdav -lwebdav -L../quazip -lquazip -lz
 
 linux-g++-32 {
     LIBS += -lblkid

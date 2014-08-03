@@ -19,11 +19,15 @@ namespace Eclibrus
 {
     struct DeviceInfo
     {
-        enum Type { MSD /*mass storage device*/, MTP /* media transfer protocol */ };
-        QString name;
-        QString mountPoint;
-        QString uuid;
+        enum Type { MSD /*mass storage device*/, WEBDAV };
         Type devType;
+
+        QString name;
+
+        QString mountPoint;
+        
+        QString uuid;
+        QString uri;
 
         bool isEmpty();
     };

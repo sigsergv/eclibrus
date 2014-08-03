@@ -1,7 +1,7 @@
 TEMPLATE = subdirs
 
 # Directories
-SUBDIRS += fb2 quazip src
+SUBDIRS += fb2 quazip webdav src
 
 isEmpty(PREFIX) {
 PREFIX = /usr

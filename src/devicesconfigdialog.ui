@@ -30,7 +30,14 @@
        <item>
         <widget class="QPushButton" name="findNewDeviceButton">
          <property name="text">
-          <string>Find new device</string>
+          <string>Find new USB MS device</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="addWebDavDeviceButton">
+         <property name="text">
+          <string>Add WebDav device</string>
          </property>
         </widget>
        </item>
