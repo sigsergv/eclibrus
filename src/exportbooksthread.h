@@ -13,11 +13,15 @@
 
 #include "fb2/fb2.h"
 
+namespace Eclibrus {
+    struct DeviceInfo;
+};
+
 class ExportThread : public QThread
 {
     Q_OBJECT
 public:
-    ExportThread(const QList<int> & books, const QString & outputDir);
+    ExportThread(const QList<int> & books, const Eclibrus::DeviceInfo & di,  const QString & outputDir);
     ~ExportThread();
     void run();
 

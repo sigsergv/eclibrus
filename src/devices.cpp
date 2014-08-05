@@ -224,7 +224,7 @@ namespace Eclibrus
 
                     // check connection and add to cache
                     QWebDav wd;
-                    wd.connectToHost(host, port, uri.userName(), uri.password());
+                    wd.connectToHost(host, port, uri.path(), uri.userName(), uri.password());
                     if (QWebDav::NoError == wd.lastError()) {
                         _connectedRegisteredDevicesCache << di;
                     }
@@ -300,27 +300,64 @@ namespace Eclibrus
 
     QString prepareLibraryDir(const DeviceInfo & device, const QString & subdir)
     {
-        QDir target_dir(device.mountPoint);
-        QString dev_lib_dir = Eclibrus::Config::deviceLibraryPath();
-        if (!target_dir.exists(dev_lib_dir)) {
-            // try to create though
-            if (!target_dir.mkdir(dev_lib_dir)) {
-                qWarning() << "Cannot create library directory on the device.";
-                return QString();
+        QString path;
+
+        switch (device.devType) {
+            case DeviceInfo::MSD: {
+                QDir target_dir(device.mountPoint);
+                QString dev_lib_dir = Eclibrus::Config::deviceLibraryPath();
+                if (!target_dir.exists(dev_lib_dir)) {
+                    // try to create though
+                    if (!target_dir.mkdir(dev_lib_dir)) {
+                        qWarning() << "Cannot create library directory on the device.";
+                        return QString();
+                    }
+                }
+                target_dir.cd(dev_lib_dir);
+
+                if (!target_dir.exists(subdir)) {
+                    // again, try to create
+                    if (!target_dir.mkdir(subdir)) {
+                        qWarning() << "Cannot create directory in the device's library dir.";
+                        return QString();
+                    }
+                }
+                target_dir.cd(subdir);
+                path = target_dir.canonicalPath();
+                break;
+            }
+
+            case DeviceInfo::WEBDAV: {
+                // try to connect device and create directory "subdir" there
+                QWebDav wd;
+                QUrl uri(device.uri);
+
+                QString host = uri.host();
+                int port = uri.port();
+                if (port == -1) {
+                    port = 80;
+                }
+
+                wd.connectToHost(host, port, uri.path(), uri.userName(), uri.password());
+                if (QWebDav::NoError != wd.lastError()) {
+                    qWarning() << "Failed to init WebDav link: " << device.uri;
+                    return QString();
+                }
+
+                QString rootPath = uri.path();
+                if (!rootPath.endsWith("/")) {
+                    rootPath += "/";
+                }
+
+                wd.mkdir(rootPath + subdir);
+                if (QWebDav::NoError == wd.lastError()) {
+                    path = rootPath + subdir;
+                }
+                break;
             }
         }
-        target_dir.cd(dev_lib_dir);
 
-        if (!target_dir.exists(subdir)) {
-            // again, try to create
-            if (!target_dir.mkdir(subdir)) {
-                qWarning() << "Cannot create directory in the device's library dir.";
-                return QString();
-            }
-        }
-        target_dir.cd(subdir);
-
-        return target_dir.canonicalPath();
+        return path;
     }
 
     static const QStringList FB2_ZIP_NAME_FILTER("*.fb2.zip");
@@ -371,10 +408,10 @@ namespace Eclibrus
                 port = 80;
             }
 
-            wd.connectToHost(host, port, uri.userName(), uri.password());
+            wd.connectToHost(host, port, uri.path(), uri.userName(), uri.password());
             if (QWebDav::NoError != wd.lastError()) {
-                qDebug() << "Failed to init WebDav link: " << device.uri;
-            }            
+                qWarning() << "Failed to init WebDav link: " << device.uri;
+            }
 
             // fetch items
             QString path = uri.path();
@@ -399,6 +436,7 @@ namespace Eclibrus
                     QUrl::RemoveAuthority|QUrl::RemoveQuery|QUrl::RemoveFragment);
                 bi.filesize = 0;
                 bi.filename = fileName;
+                bi.metaId = item.href;
                 books << bi;
             }
         }

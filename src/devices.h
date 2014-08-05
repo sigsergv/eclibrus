@@ -36,9 +36,12 @@ namespace Eclibrus
     {
         // directory
         QString path;
-        // filename
+        // filename in the directory
         QString filename;
         qint64 filesize;
+
+        // some string that identifies this file (full filename/href for example)
+        QString metaId;
     };
 
     /*

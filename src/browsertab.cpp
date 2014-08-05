@@ -142,7 +142,7 @@ void BrowserTab::exportBookToDevice(const Eclibrus::DeviceInfo & di, int bookId)
     QList<int> books;
     books << bookId;
 
-    ExportBooksProgress dlg(books, device_lib_dir, mbb);
+    ExportBooksProgress dlg(books, di, device_lib_dir, mbb);
     dlg.exec();
 }
 
@@ -172,7 +172,7 @@ void BrowserTab::exportAllBooksFromPageToDevice(const Eclibrus::DeviceInfo & di)
         books << re.cap(1).toInt();
         pos += re.matchedLength();
     }
-    ExportBooksProgress dlg(books, device_lib_dir, mbb);
+    ExportBooksProgress dlg(books, di, device_lib_dir, mbb);
     dlg.exec();
 }
 

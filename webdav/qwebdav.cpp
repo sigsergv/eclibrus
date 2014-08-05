@@ -45,7 +45,7 @@ void QWebDav::connectToHost(const QString & hostName, quint16 port)
     // Do nothing
 }
 
-void QWebDav::connectToHost(const QString & hostName, quint16 port, const QString & username, const QString & password) 
+void QWebDav::connectToHost(const QString & hostName, quint16 port, const QString & startPath, const QString & username, const QString & password) 
 {
     p->baseUrl.setScheme("http");
     p->baseUrl.setHost(hostName);
@@ -63,7 +63,7 @@ void QWebDav::connectToHost(const QString & hostName, quint16 port, const QStrin
     QUrl reqUrl(p->baseUrl);
     QNetworkRequest request;
 
-    reqUrl.setPath("/");
+    reqUrl.setPath(startPath);
     request.setUrl(reqUrl);
 
     p->lastError = NoError;
@@ -206,6 +206,89 @@ QList<WebDavItem> QWebDav::list(const QString & path, bool recursive)
     }
 
     return items;
+}
+
+
+void QWebDav::mkdir(const QString & path)
+{
+    QUrl reqUrl(p->baseUrl);
+    QNetworkRequest request;
+
+    reqUrl.setPath(path, QUrl::StrictMode);
+    request.setUrl(reqUrl);
+
+    p->lastError = NoError;
+    EventLoop * loop;
+    loop = new EventLoop();
+
+    QByteArray query;
+    QNetworkReply * reply = davRequest("MKCOL", request, query);
+    connect(reply, SIGNAL(finished()), loop, SLOT(quit()));
+    loop->exec();
+
+    if (p->lastError == AuthFailedError) {
+        qDebug() << "Auth failed";
+        reply->abort();
+        reply->deleteLater();
+        return;
+    }
+
+    if (reply->error() != QNetworkReply::NoError) {
+        p->lastError = NetworkError;
+        qDebug() << reply->errorString();
+        reply->abort();
+        reply->deleteLater();
+        return;
+    }
+    delete loop;
+}
+
+
+void QWebDav::put(const QString & localPath, const QString & webdavPath)
+{
+    QUrl reqUrl(p->baseUrl);
+    QNetworkRequest request;
+
+    reqUrl.setPath(webdavPath, QUrl::DecodedMode);
+    request.setUrl(reqUrl);
+    request.setRawHeader(QByteArray("Translate"), "f");
+    request.setRawHeader(QByteArray("Content-Type"), "application/octet-stream");
+
+    p->lastError = NoError;
+    EventLoop * loop;
+    loop = new EventLoop();
+
+    QFile f(localPath);
+    f.open(QIODevice::ReadOnly);
+
+    QByteArray data = f.readAll();
+
+    if (data.isEmpty()) {
+        p->lastError = NoSourceLocalFile;
+        return;
+    }
+
+    request.setRawHeader(QByteArray("Content-Length"), QByteArray::number(data.size()));
+
+    QNetworkReply * reply = davRequest("PUT", request, data);
+    connect(reply, SIGNAL(finished()), loop, SLOT(quit()));
+    loop->exec();
+
+    if (p->lastError == AuthFailedError) {
+        qDebug() << "Auth failed";
+        reply->abort();
+        reply->deleteLater();
+        return;
+    }
+
+    if (reply->error() != QNetworkReply::NoError) {
+        p->lastError = NetworkError;
+        qDebug() << reply->errorString();
+        reply->abort();
+        reply->deleteLater();
+        return;
+    }
+    delete loop;
 }
 
 
