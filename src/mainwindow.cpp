@@ -34,6 +34,7 @@ MainWindow::MainWindow() :
     p->tabs->setTabsClosable(true);
     p->tabs->setFocusPolicy(Qt::StrongFocus);
     p->tabs->setContentsMargins(0, 0, 0, 0);
+    p->tabs->setDocumentMode(true);
     setCentralWidget(p->tabs);
 
     setWindowIcon(QIcon(":/eclibrus-32.png"));

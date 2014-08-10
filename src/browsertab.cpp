@@ -80,26 +80,30 @@ BrowserTab::BrowserTab(QWidget * parent) :
     p->histForwardButton->setDefaultAction(p->view->pageAction(QWebPage::Forward));
     p->startSearchButton->setText(tr("Search"));
 
-    p->startSearchButton->setFocusProxy(p->searchTextEntry);
-    p->startSearchButton->setFocusPolicy(Qt::ClickFocus);
-    p->histBackButton->setFocusProxy(p->searchTextEntry);
-    p->histBackButton->setFocusPolicy(Qt::ClickFocus);
-    p->histForwardButton->setFocusProxy(p->searchTextEntry);
-    p->histForwardButton->setFocusPolicy(Qt::ClickFocus);
+    // p->startSearchButton->setFocusProxy(p->searchTextEntry);
+    p->startSearchButton->setFocusPolicy(Qt::NoFocus);
+    // p->histBackButton->setFocusProxy(p->searchTextEntry);
+    p->histBackButton->setFocusPolicy(Qt::NoFocus);
+    // p->histForwardButton->setFocusProxy(p->searchTextEntry);
+    p->histForwardButton->setFocusPolicy(Qt::NoFocus);
 
     p->view->page()->setLinkDelegationPolicy(QWebPage::DelegateExternalLinks);
     QNetworkAccessManager * oldManager = p->view->page()->networkAccessManager();
     Eclibrus::LibraryNAM * newManager = new Eclibrus::LibraryNAM(oldManager, this);
     p->view->page()->setNetworkAccessManager(newManager);
 
-    QLayout * topLayout = new QHBoxLayout;
+    QBoxLayout * topLayout = new QHBoxLayout;
     topLayout->addWidget(p->histBackButton);
+    topLayout->addSpacing(4);
     topLayout->addWidget(p->histForwardButton);
+    topLayout->addSpacing(4);
     topLayout->addWidget(p->searchTextEntry);
+    topLayout->addSpacing(4);
     topLayout->addWidget(p->startSearchButton);
     topLayout->setAlignment(p->histBackButton, Qt::AlignLeft);
     
     QLayout * layout = new QVBoxLayout(this);
+    layout->setContentsMargins(0, 0, 0, 0);
     layout->addItem(topLayout);
     layout->setAlignment(topLayout, Qt::AlignTop);
     layout->addWidget(p->view);
