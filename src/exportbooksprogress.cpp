@@ -9,9 +9,12 @@
 #include <QtCore>
 #include <QtDebug>
 
+#include "devices.h"
 #include "exportbooksprogress.h"
 #include "exportbooksthread.h"
 #include "ui_exportbooksprogress.h"
+#include "webdav/qwebdav_types.h"
+#include "webdav/qwebdav.h"
 
 struct ExportBooksProgress::Private
 {
@@ -19,12 +22,12 @@ struct ExportBooksProgress::Private
     ExportThread * thread;
 };
 
-ExportBooksProgress::ExportBooksProgress(const QList<int> books, const QString & outputDir, QWidget * parent)
+ExportBooksProgress::ExportBooksProgress(const QList<int> books, const Eclibrus::DeviceInfo & di, const QString & outputDir, QWidget * parent)
     : QDialog(parent)
 {
     p = new Private;
     p->ui.setupUi(this);
-    p->thread = new ExportThread(books, outputDir);
+    p->thread = new ExportThread(books, di, outputDir);
     p->ui.progressBar->setMaximum(100);
     p->ui.progressBar->setMinimum(0);
     

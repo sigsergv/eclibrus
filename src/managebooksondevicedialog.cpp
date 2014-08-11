@@ -83,6 +83,8 @@ void ManageBooksOnDeviceDialog::deviceChanged(int row)
         return;
     }
 
+    qDebug() << device.uri;
+
     QList<Eclibrus::DeviceBookInfo> books = Eclibrus::deviceLibraryBooks(device);
     p->model->clear();
     QStandardItem * item;

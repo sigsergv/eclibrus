@@ -142,7 +142,7 @@ void BrowserTab::exportBookToDevice(const Eclibrus::DeviceInfo & di, int bookId)
     QList<int> books;
     books << bookId;
 
-    ExportBooksProgress dlg(books, device_lib_dir, mbb);
+    ExportBooksProgress dlg(books, di, device_lib_dir, mbb);
     dlg.exec();
 }
 
@@ -172,7 +172,7 @@ void BrowserTab::exportAllBooksFromPageToDevice(const Eclibrus::DeviceInfo & di)
         books << re.cap(1).toInt();
         pos += re.matchedLength();
     }
-    ExportBooksProgress dlg(books, device_lib_dir, mbb);
+    ExportBooksProgress dlg(books, di, device_lib_dir, mbb);
     dlg.exec();
 }
 
@@ -269,7 +269,12 @@ void BrowserTab::downloadBook(int bookId)
     QFileDialog save_dialog;
     QPair<QString, QString> pair = Eclibrus::Db::archivedBookFile(bookId);
     QString basename = Eclibrus::Plain::bookFileName(bookId);
+#ifdef Q_OS_MAC
+    QString filename = basename;
+#else
     QString filename = basename + ".fb2.zip";
+#endif
+    qDebug() << "filename" << filename;
     QStringList name_filters;
 
     if (pair.first.isEmpty()) {

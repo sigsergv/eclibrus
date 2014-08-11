@@ -12,11 +12,15 @@
 #include <QList>
 #include "fb2/fb2.h"
 
+namespace Eclibrus {
+    struct DeviceInfo;
+};
+
 class ExportBooksProgress : public QDialog
 {
     Q_OBJECT
 public:
-    ExportBooksProgress(const QList<int> books, const QString & outputDir, QWidget * parent = 0);
+    ExportBooksProgress(const QList<int> books, const Eclibrus::DeviceInfo & di, const QString & outputDir, QWidget * parent = 0);
     ~ExportBooksProgress();
     void setVisible(bool visible);
 

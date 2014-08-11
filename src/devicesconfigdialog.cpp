@@ -10,6 +10,7 @@
 
 #include "devicesconfigdialog.h"
 #include "addnewdevicedialog.h"
+#include "webdavdeviceconfigdialog.h"
 #include "devices.h"
 #include "ui_devicesconfigdialog.h"
 
@@ -31,6 +32,8 @@ DevicesConfigDialog::DevicesConfigDialog(QWidget * parent)
         this, SLOT(addNewDevice()));
     connect(p->ui.forgetDeviceButton, SIGNAL(clicked()),
         this, SLOT(deleteSelectedDevices()));
+    connect(p->ui.addWebDavDeviceButton, SIGNAL(clicked()),
+        this, SLOT(addWebDavDevice()));
 
     reloadDevicesList();
 }
@@ -68,6 +71,17 @@ void DevicesConfigDialog::addNewDevice()
     qDebug() << "device" << di.uuid;
     Eclibrus::registerDevice(di);
     reloadDevicesList();
+}
+
+void DevicesConfigDialog::addWebDavDevice()
+{
+    WebDavDeviceConfigDialog dlg;
+    if (QDialog::Accepted == dlg.exec()) {
+        // remember this device
+        Eclibrus::DeviceInfo di = dlg.device();
+        Eclibrus::registerDevice(di);
+        reloadDevicesList();
+    }
 }
 
 void DevicesConfigDialog::deleteSelectedDevices()
