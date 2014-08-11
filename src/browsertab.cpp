@@ -176,8 +176,19 @@ void BrowserTab::exportAllBooksFromPageToDevice(const Eclibrus::DeviceInfo & di)
         books << re.cap(1).toInt();
         pos += re.matchedLength();
     }
-    ExportBooksProgress dlg(books, di, device_lib_dir, mbb);
-    dlg.exec();
+
+    if (books.size() > 7) {
+        if (QMessageBox::warning(MainWindow::inst(), 
+            tr("Warning"), 
+            tr("Do you really want to export all %n books?", "xx", books.size()),
+            QMessageBox::Yes|QMessageBox::No, QMessageBox::No)
+        ) {
+
+        }
+    } else {
+        ExportBooksProgress dlg(books, di, device_lib_dir, mbb);
+        dlg.exec();
+    }
 }
 
 void BrowserTab::setUrl(const QUrl & url)

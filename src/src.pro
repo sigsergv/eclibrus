@@ -1,4 +1,4 @@
-DEFINES += ECLIBRUS_VERSION="\\\"1.3\\\""
+DEFINES += ECLIBRUS_VERSION="\\\"1.4\\\""
 
 HEADERS += mainwindow.h \
     settings.h \
@@ -74,13 +74,19 @@ linux-g++-64 {
 }
 
 macx {
-    LIBS += -L/usr/local/lib
+    LIBS += -L/usr/local/lib -framework Cocoa
     INCLUDEPATH += /usr/local/include
     ICON = ../resources/icons/eclibrus.icns
     QMAKE_INFO_PLIST = ../resources/Info.plist 
+
+    mactrans.target = mactrans
+    mactrans.commands = lrelease src.pro && cp ../translations/*.qm ../eclibrus.app/Contents/Resources
+    QMAKE_EXTRA_TARGETS += mactrans
+    PRE_TARGETDEPS += mactrans
+    #INSTALLS += mactrans
 }
 
-unix {
+!macx:unix {
     #VARIABLES
     isEmpty(PREFIX) {
     PREFIX = /usr
@@ -109,6 +115,4 @@ unix {
     icon64.files = ../resources/icons/64x64/Eclibrus.png
 
     INSTALLS += target desktop icon16 icon32 icon48
-
-
 }

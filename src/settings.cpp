@@ -8,6 +8,9 @@
 #include <QtCore>
 #include <QtDebug>
 #include <QWebSecurityOrigin>
+#ifdef Q_OS_MAC
+#include <ApplicationServices/ApplicationServices.h>
+#endif
 
 #include "settings.h"
 
@@ -73,11 +76,21 @@ namespace Config
         
         // find directory with translations
         if (::uiLangsPath.isEmpty()) {
-#ifdef Q_OS_UNIX
-            // check standard dirs
             QStringList checkPaths;
+#ifdef Q_OS_MAC
+            // find path in the bundle
+            CFURLRef appUrlRef = CFBundleCopyBundleURL(CFBundleGetMainBundle());
+            CFStringRef macPath = CFURLCopyFileSystemPath(appUrlRef, kCFURLPOSIXPathStyle);
+            const char *pathPtr = CFStringGetCStringPtr(macPath, CFStringGetSystemEncoding());
+            QString bundlePath(pathPtr);
+            checkPaths << (bundlePath + "/Contents/Resources/");
+#endif
+
+#ifdef Q_OS_LINUX
+            // check standard dirs
             checkPaths << "/usr/share/eclibrus/translations/";
 
+#endif
             foreach (QString path, checkPaths) {
                 QDir d(path);
                 bool found = false;
@@ -96,7 +109,6 @@ namespace Config
                     }
                 }
             }
-#endif
         }
         return ::uiLangsPath;
     }
