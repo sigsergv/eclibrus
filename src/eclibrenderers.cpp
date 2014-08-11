@@ -258,7 +258,7 @@ namespace Html
         }
 
         if (books.size()) {
-            html += QString("<div><span class=\"item\">%1</span></div>").arg(link(QString("http://%1/export-all-page-books")
+            html += QString("<div class=\"float-right\"><span class=\"item\">%1</span></div>").arg(link(QString("http://%1/export-all-page-books")
                 .arg(::Eclibrus::Config::extUrlNamespace()),
                 EclibReply::tr("Download all books from this page to e-book reader")));
         }
@@ -293,29 +293,37 @@ namespace Html
         int page_size = Eclibrus::Config::itemsPerPage();
         int total_pages = totalItems / page_size + (totalItems % page_size ? 0 : 1);
         int last_page = total_pages - 1; // remember: pages numbers start from 0
+        const int range_size = 4; // ± pages to the left and right
+
         if (page > 0) {
             // show link to first page
             pager += linkTpl.arg(0).arg(EclibReply::tr("first page"));
         }
-        if (page-3 > 0) {
-            pager += "…";
+
+        if (page > range_size) {
+            pager += "… ";
         }
-        if (page-2 > 0) {
-            pager += linkTpl.arg(page-2).arg(page-1);
+
+        for (int i=page-range_size; i<page; i++) {
+            if (i < 0) {
+                continue;
+            }
+            pager += linkTpl.arg(i).arg(i+1);
         }
-        if (page-1 > 0) {
-            pager += linkTpl.arg(page-1).arg(page);
+
+        pager += QString("<span class=\"item current\">%1</span>").arg(page+1);
+
+        for (int i=page+1; i<page+range_size+1; i++) {
+            if (i > last_page) {
+                break;
+            }
+            pager += linkTpl.arg(i).arg(i+1);
         }
-        pager += QString("<span class=\"item\">%1</span>").arg(page+1);
-        if (page+1 < last_page) {
-            pager += linkTpl.arg(page+1).arg(page+2);
+
+        if (page < last_page - range_size) {
+            pager += "… ";
         }
-        if (page+2 < last_page) {
-            pager += linkTpl.arg(page+2).arg(page+3);
-        }
-        if (page+3 < last_page) {
-            pager += "…";
-        }
+
         if (page < last_page) {
             pager += linkTpl.arg(total_pages - 1).arg(EclibReply::tr("last page"));
         }
