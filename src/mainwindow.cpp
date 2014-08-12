@@ -33,6 +33,8 @@ MainWindow::MainWindow() :
     p->tabs = new QTabWidget(this);
     p->tabs->setTabsClosable(true);
     p->tabs->setFocusPolicy(Qt::StrongFocus);
+    p->tabs->setContentsMargins(0, 0, 0, 0);
+    p->tabs->setDocumentMode(true);
     setCentralWidget(p->tabs);
 
     setWindowIcon(QIcon(":/eclibrus-32.png"));
@@ -40,8 +42,10 @@ MainWindow::MainWindow() :
     QAction *newBrowserTabAction = new QAction(tr("&New browser tab"), this);
     newBrowserTabAction->setShortcut(Qt::Key_T + Qt::CTRL);
     QAction * prefsAction = new QAction(tr("&Preferences"), this);
+    prefsAction->setMenuRole(QAction::PreferencesRole);
     prefsAction->setShortcut(Qt::Key_P + Qt::CTRL);
     QAction * quitAction = new QAction(tr("&Quit"), this);
+    quitAction->setMenuRole(QAction::QuitRole);
     QAction * devicesConfigAction = new QAction(tr("&Manage removable devices"), this);
     devicesConfigAction->setShortcut(Qt::Key_D + Qt::CTRL);
     QAction * manageBooksOnDeviceAction = new QAction(tr("Manage &books on device"), this);
@@ -49,6 +53,7 @@ MainWindow::MainWindow() :
     QAction * librarySummaryInfoAction = new QAction(tr("Library &summary"), this);
     QAction * genresSummaryInfoAction = new QAction(tr("&Genres summary"), this);
     QAction * aboutAction = new QAction(tr("&About EcLibRus"), this);
+    aboutAction->setMenuRole(QAction::AboutRole);
 
     // connect actions
     connect(p->tabs, SIGNAL(tabCloseRequested(int)),

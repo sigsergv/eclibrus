@@ -536,7 +536,7 @@ namespace Eclibrus
 
         QString link_tpl = QString("<a href=\"eclib:genre?id=%1&page=%2\">%3</a>")
             .arg(QString::number(genreId), "%1", "%2");
-        html += QString("<div>%1 <span class=\"gray\">//</span> %2</div>")
+        html += QString("<div>%1</div><div>%2</div>")
             .arg(tr("Total books: %1, showing from %2 to %3")
                 .arg(total_books)
                 .arg(page_size * page + 1)

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="ru_RU">
-<defaultcodec>UTF-8</defaultcodec>
+<TS version="2.1" language="ru_RU">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -83,47 +82,58 @@ Eclibrus is an opensource project licensed under GPLv2 terms.</source>
 <context>
     <name>BrowserTab</name>
     <message>
-        <location filename="../src/browsertab.cpp" line="45"/>
-        <location filename="../src/browsertab.cpp" line="52"/>
-        <location filename="../src/browsertab.cpp" line="136"/>
-        <location filename="../src/browsertab.cpp" line="157"/>
-        <location filename="../src/browsertab.cpp" line="274"/>
+        <location filename="../src/browsertab.cpp" line="46"/>
+        <location filename="../src/browsertab.cpp" line="53"/>
+        <location filename="../src/browsertab.cpp" line="141"/>
+        <location filename="../src/browsertab.cpp" line="162"/>
+        <location filename="../src/browsertab.cpp" line="182"/>
+        <location filename="../src/browsertab.cpp" line="296"/>
         <source>Warning</source>
         <translation>Предупреждение</translation>
     </message>
     <message>
-        <location filename="../src/browsertab.cpp" line="46"/>
+        <location filename="../src/browsertab.cpp" line="47"/>
         <source>Please connect external device, it&apos;s required for this action.</source>
         <translation>Пожалуйста, подключите к компьютеру читалку, это необходимо для текущей операции.</translation>
     </message>
     <message>
-        <location filename="../src/browsertab.cpp" line="53"/>
+        <location filename="../src/browsertab.cpp" line="54"/>
         <source>More than one registered device connected, that&apos;s not yet supported, sorry.</source>
         <translation>Подключено более одного внешнего устройства, выбор из них пока не предусмотрен.</translation>
     </message>
     <message>
-        <location filename="../src/browsertab.cpp" line="75"/>
+        <location filename="../src/browsertab.cpp" line="76"/>
         <source>Type any text here and press [Enter] to start search</source>
         <translation>Напишите тут любой текст и нажмите [Enter], чтобы найти его в библиотеке</translation>
     </message>
     <message>
-        <location filename="../src/browsertab.cpp" line="80"/>
+        <location filename="../src/browsertab.cpp" line="81"/>
         <source>Search</source>
         <translation>Искать</translation>
     </message>
     <message>
-        <location filename="../src/browsertab.cpp" line="137"/>
-        <location filename="../src/browsertab.cpp" line="158"/>
+        <location filename="../src/browsertab.cpp" line="142"/>
+        <location filename="../src/browsertab.cpp" line="163"/>
         <source>Cannot export book to device&apos;s library directory.</source>
         <translation>Не удалось экспортировать книгу в библиотеку на внешней читалке.</translation>
     </message>
+    <message numerus="yes">
+        <location filename="../src/browsertab.cpp" line="183"/>
+        <source>Do you really want to export all %n books?</source>
+        <comment>xx</comment>
+        <translation>
+            <numerusform>Вы действительно хотите экспортировать все %n книг?</numerusform>
+            <numerusform>Вы действительно хотите экспортировать все %n книги?</numerusform>
+            <numerusform>Вы действительно хотите экспортировать все %n книг?</numerusform>
+        </translation>
+    </message>
     <message>
-        <location filename="../src/browsertab.cpp" line="274"/>
+        <location filename="../src/browsertab.cpp" line="296"/>
         <source>Cannot find archive in the library database.</source>
         <translation>Не удалось найти файл архива в базе данных.</translation>
     </message>
     <message>
-        <location filename="../src/browsertab.cpp" line="278"/>
+        <location filename="../src/browsertab.cpp" line="300"/>
         <source>FictionBook2 files (*.fb2.zip) (*.fb2.zip)</source>
         <translation>Файлы FictionBook2 (*.fb2.zip) (*.fb2.zip)</translation>
     </message>
@@ -137,11 +147,20 @@ Eclibrus is an opensource project licensed under GPLv2 terms.</source>
     </message>
     <message>
         <location filename="../src/devicesconfigdialog.ui" line="33"/>
-        <source>Find new device</source>
-        <translation>Найти устройство</translation>
+        <source>Find new USB MS device</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/devicesconfigdialog.ui" line="40"/>
+        <source>Add WebDav device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Find new device</source>
+        <translation type="vanished">Найти устройство</translation>
+    </message>
+    <message>
+        <location filename="../src/devicesconfigdialog.ui" line="47"/>
         <source>Forget device</source>
         <translation>Удалить выбранное</translation>
     </message>
@@ -149,7 +168,7 @@ Eclibrus is an opensource project licensed under GPLv2 terms.</source>
 <context>
     <name>EclibWebView</name>
     <message>
-        <location filename="../src/eclibwebview.cpp" line="27"/>
+        <location filename="../src/eclibwebview.cpp" line="28"/>
         <source>Download book</source>
         <translation>Скачать книгу</translation>
     </message>
@@ -162,25 +181,25 @@ Eclibrus is an opensource project licensed under GPLv2 terms.</source>
         <translation>переводчик</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="117"/>
+        <location filename="../src/eclibreply.cpp" line="119"/>
         <source>More authors are available, click here to show them.</source>
         <translation>Было найдено больше авторов, чем тут показано, кликните здесь, чтобы показать остальных.</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="151"/>
+        <location filename="../src/eclibreply.cpp" line="155"/>
         <source>More books are available, click here to show them.</source>
         <translation>Было найдено больше книг, чем тут показано, кликните, чтобы показать все.</translation>
     </message>
     <message>
         <location filename="../src/eclibrenderers.cpp" line="280"/>
-        <location filename="../src/eclibreply.cpp" line="326"/>
+        <location filename="../src/eclibreply.cpp" line="330"/>
         <source>Authors</source>
         <translation>Авторы</translation>
     </message>
     <message>
         <location filename="../src/eclibrenderers.cpp" line="270"/>
-        <location filename="../src/eclibreply.cpp" line="346"/>
-        <location filename="../src/eclibreply.cpp" line="520"/>
+        <location filename="../src/eclibreply.cpp" line="350"/>
+        <location filename="../src/eclibreply.cpp" line="524"/>
         <source>Genre</source>
         <translation>Жанр</translation>
     </message>
@@ -196,72 +215,72 @@ Eclibrus is an opensource project licensed under GPLv2 terms.</source>
     </message>
     <message>
         <location filename="../src/eclibreply.cpp" line="109"/>
-        <location filename="../src/eclibreply.cpp" line="181"/>
+        <location filename="../src/eclibreply.cpp" line="185"/>
         <source>Authors found</source>
         <translation>Найденные авторы</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="143"/>
+        <location filename="../src/eclibreply.cpp" line="145"/>
         <source>Books found</source>
         <translation>Найденные книги</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="156"/>
+        <location filename="../src/eclibreply.cpp" line="160"/>
         <source>No results for the query.</source>
         <translation>По запросу ничего не найдено.</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="183"/>
+        <location filename="../src/eclibreply.cpp" line="187"/>
         <source>Author name / number of books</source>
         <translation>Имя автора /  количество книг</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="367"/>
+        <location filename="../src/eclibreply.cpp" line="371"/>
         <source>Sequences</source>
         <translation>Входит в серии</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="441"/>
+        <location filename="../src/eclibreply.cpp" line="445"/>
         <source>Error: Unable to open ZIP-archive with book files.</source>
         <translation>Ошибка: не удалось открыть архив с книжными файлами.</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="444"/>
+        <location filename="../src/eclibreply.cpp" line="448"/>
         <source>Unknown ZIP-error</source>
         <translation>Какая-то ошибка с ZIP-архивами</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="446"/>
+        <location filename="../src/eclibreply.cpp" line="450"/>
         <source>ZIP-archive file “%1” not found</source>
         <translation>ZIP-архив «%1» не найден</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="449"/>
+        <location filename="../src/eclibreply.cpp" line="453"/>
         <source>File “%1” is not found in the archive “%2”</source>
         <translation>Файл «%1» не найден в архиве «%2»</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="570"/>
+        <location filename="../src/eclibreply.cpp" line="574"/>
         <source>Series</source>
         <translation>Книжная серия</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="575"/>
+        <location filename="../src/eclibreply.cpp" line="579"/>
         <source>Part of the series: %1</source>
         <translation>Эта серия является частью другой книжной серии: %1</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="600"/>
+        <location filename="../src/eclibreply.cpp" line="604"/>
         <source>Library summary</source>
         <translation>О библиотеке</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="602"/>
+        <location filename="../src/eclibreply.cpp" line="606"/>
         <source>Summary and general statistics about data stored in the library.</source>
         <translation>Общая информация и статистика по содержимому библиотеки.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/eclibreply.cpp" line="624"/>
+        <location filename="../src/eclibreply.cpp" line="628"/>
         <source>Library contains &lt;strong&gt;%n&lt;/strong&gt; books </source>
         <translation>
             <numerusform>В библиотеке %n книга </numerusform>
@@ -270,7 +289,7 @@ Eclibrus is an opensource project licensed under GPLv2 terms.</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/eclibreply.cpp" line="625"/>
+        <location filename="../src/eclibreply.cpp" line="629"/>
         <source>on &lt;strong&gt;%n&lt;/strong&gt; languages</source>
         <translation>
             <numerusform>на одном языке</numerusform>
@@ -279,122 +298,122 @@ Eclibrus is an opensource project licensed under GPLv2 terms.</source>
         </translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="628"/>
+        <location filename="../src/eclibreply.cpp" line="632"/>
         <source>show</source>
         <translation>показать</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="631"/>
+        <location filename="../src/eclibreply.cpp" line="635"/>
         <source>hide</source>
         <translation>скрыть</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="636"/>
+        <location filename="../src/eclibreply.cpp" line="640"/>
         <source>Russian</source>
         <translation>Русский</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="637"/>
+        <location filename="../src/eclibreply.cpp" line="641"/>
         <source>English</source>
         <translation>Английский</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="638"/>
+        <location filename="../src/eclibreply.cpp" line="642"/>
         <source>Spanish</source>
         <translation>Испанский</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="639"/>
+        <location filename="../src/eclibreply.cpp" line="643"/>
         <source>English (UK)</source>
         <translation>Английский (UK)</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="640"/>
+        <location filename="../src/eclibreply.cpp" line="644"/>
         <source>Polish</source>
         <translation>Польский</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="641"/>
+        <location filename="../src/eclibreply.cpp" line="645"/>
         <source>French</source>
         <translation>Французский</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="642"/>
+        <location filename="../src/eclibreply.cpp" line="646"/>
         <source>Bulgarian</source>
         <translation>Болгарский</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="643"/>
+        <location filename="../src/eclibreply.cpp" line="647"/>
         <source>German</source>
         <translation>Немецкий</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="644"/>
+        <location filename="../src/eclibreply.cpp" line="648"/>
         <source>Latvian</source>
         <translation>Латышский</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="645"/>
+        <location filename="../src/eclibreply.cpp" line="649"/>
         <source>Belarus</source>
         <translation>Белорусский</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="646"/>
+        <location filename="../src/eclibreply.cpp" line="650"/>
         <source>Italian</source>
         <translation>Итальянский</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="647"/>
+        <location filename="../src/eclibreply.cpp" line="651"/>
         <source>Czech</source>
         <translation>Чешский</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="648"/>
+        <location filename="../src/eclibreply.cpp" line="652"/>
         <source>Esperanto</source>
         <translation>Эсперанто</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="649"/>
+        <location filename="../src/eclibreply.cpp" line="653"/>
         <source>Hungarian</source>
         <translation>Венгерский</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="650"/>
+        <location filename="../src/eclibreply.cpp" line="654"/>
         <source>Romanian</source>
         <translation>Румынский</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="651"/>
+        <location filename="../src/eclibreply.cpp" line="655"/>
         <source>Dutch</source>
         <translation>Голландский</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="652"/>
+        <location filename="../src/eclibreply.cpp" line="656"/>
         <source>Portugese</source>
         <translation>Португальский</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="671"/>
+        <location filename="../src/eclibreply.cpp" line="675"/>
         <source>language</source>
         <translation>язык</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="672"/>
+        <location filename="../src/eclibreply.cpp" line="676"/>
         <source>books on that language</source>
         <translation>книг на этом языке</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="686"/>
+        <location filename="../src/eclibreply.cpp" line="690"/>
         <source>Other</source>
         <translation>Остальные</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="710"/>
+        <location filename="../src/eclibreply.cpp" line="714"/>
         <source>All genres</source>
         <translation>Все жанры</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="712"/>
+        <location filename="../src/eclibreply.cpp" line="716"/>
         <source>Genre name / books number</source>
         <translation>Название жанра / количество книг</translation>
     </message>
@@ -419,42 +438,42 @@ Eclibrus is an opensource project licensed under GPLv2 terms.</source>
         <translation>Скачать все книги с этой страницы в читалку книг</translation>
     </message>
     <message>
-        <location filename="../src/eclibrenderers.cpp" line="298"/>
+        <location filename="../src/eclibrenderers.cpp" line="300"/>
         <source>first page</source>
         <translation>на первую страницу</translation>
     </message>
     <message>
-        <location filename="../src/eclibrenderers.cpp" line="320"/>
+        <location filename="../src/eclibrenderers.cpp" line="328"/>
         <source>last page</source>
         <translation>на последнюю страницу</translation>
     </message>
     <message>
-        <location filename="../src/eclibrenderers.cpp" line="403"/>
+        <location filename="../src/eclibrenderers.cpp" line="411"/>
         <source>KB</source>
         <translation>Кб</translation>
     </message>
     <message>
-        <location filename="../src/eclibrenderers.cpp" line="403"/>
+        <location filename="../src/eclibrenderers.cpp" line="411"/>
         <source>MB</source>
         <translation>Мб</translation>
     </message>
     <message>
-        <location filename="../src/eclibrenderers.cpp" line="404"/>
+        <location filename="../src/eclibrenderers.cpp" line="412"/>
         <source>GB</source>
         <translation>Гб</translation>
     </message>
     <message>
-        <location filename="../src/eclibrenderers.cpp" line="404"/>
+        <location filename="../src/eclibrenderers.cpp" line="412"/>
         <source>TB</source>
         <translation>Тб</translation>
     </message>
     <message>
-        <location filename="../src/eclibrenderers.cpp" line="407"/>
+        <location filename="../src/eclibrenderers.cpp" line="415"/>
         <source>bytes</source>
         <translation>байт</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="536"/>
+        <location filename="../src/eclibreply.cpp" line="540"/>
         <source>Total books: %1, showing from %2 to %3</source>
         <translation>Всего книг: %1, показаны с %2 по %3</translation>
     </message>
@@ -464,12 +483,12 @@ Eclibrus is an opensource project licensed under GPLv2 terms.</source>
         <translation>Книжная серия</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="730"/>
+        <location filename="../src/eclibreply.cpp" line="734"/>
         <source>&lt;h3&gt;Error: %1&lt;/h3&gt;</source>
         <translation>&lt;h3&gt;Ошибка: %1&lt;/h3&gt;</translation>
     </message>
     <message>
-        <location filename="../src/eclibreply.cpp" line="802"/>
+        <location filename="../src/eclibreply.cpp" line="807"/>
         <source>Unknown eclib method &lt;em&gt;%1&lt;/em&gt;!</source>
         <translation>Неизвестный метод &lt;em&gt;%1&lt;/em&gt;!</translation>
     </message>
@@ -485,67 +504,67 @@ Eclibrus is an opensource project licensed under GPLv2 terms.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="40"/>
+        <location filename="../src/mainwindow.cpp" line="42"/>
         <source>&amp;New browser tab</source>
         <translation>&amp;Новый таб с браузером</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="42"/>
+        <location filename="../src/mainwindow.cpp" line="44"/>
         <source>&amp;Preferences</source>
         <translation>&amp;Настройки</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="44"/>
+        <location filename="../src/mainwindow.cpp" line="47"/>
         <source>&amp;Quit</source>
         <translation>В&amp;ыход</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="45"/>
+        <location filename="../src/mainwindow.cpp" line="49"/>
         <source>&amp;Manage removable devices</source>
         <translation>Управление внешними &amp;устройствами</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="47"/>
+        <location filename="../src/mainwindow.cpp" line="51"/>
         <source>Manage &amp;books on device</source>
         <translation>Управление &amp;книгами на читалке</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="49"/>
+        <location filename="../src/mainwindow.cpp" line="53"/>
         <source>Library &amp;summary</source>
         <translation>Про &amp;библиотеку</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="50"/>
+        <location filename="../src/mainwindow.cpp" line="54"/>
         <source>&amp;Genres summary</source>
         <translation>Все &amp;жанры</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="51"/>
+        <location filename="../src/mainwindow.cpp" line="55"/>
         <source>&amp;About EcLibRus</source>
         <translation>&amp;О программе EcLibRus</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="75"/>
+        <location filename="../src/mainwindow.cpp" line="80"/>
         <source>&amp;File</source>
         <translation>&amp;Файл</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="79"/>
+        <location filename="../src/mainwindow.cpp" line="84"/>
         <source>&amp;Devices</source>
         <translation>&amp;Устройства</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="82"/>
+        <location filename="../src/mainwindow.cpp" line="87"/>
         <source>&amp;Information</source>
         <translation>&amp;Информация</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="85"/>
+        <location filename="../src/mainwindow.cpp" line="90"/>
         <source>&amp;Help</source>
         <translation>&amp;Помощь</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="149"/>
+        <location filename="../src/mainwindow.cpp" line="155"/>
         <source>Library browser</source>
         <translation>Библиотека</translation>
     </message>
@@ -583,7 +602,7 @@ Eclibrus is an opensource project licensed under GPLv2 terms.</source>
         <translation>Выберите книги, которые вы хотите удалить, и нажмите эту кнопку.</translation>
     </message>
     <message>
-        <location filename="../src/managebooksondevicedialog.cpp" line="109"/>
+        <location filename="../src/managebooksondevicedialog.cpp" line="111"/>
         <source>File size: %1</source>
         <translation>Размер файла: %1</translation>
     </message>
@@ -629,6 +648,54 @@ Eclibrus is an opensource project licensed under GPLv2 terms.</source>
         <location filename="../src/preferencesdialog.cpp" line="62"/>
         <source>Select LibRusEc archives directory</source>
         <translation>Выберите каталог с архивами LibRusEc</translation>
+    </message>
+</context>
+<context>
+    <name>WebDavDeviceConfigDialog</name>
+    <message>
+        <location filename="../src/webdavdeviceconfigdialog.ui" line="14"/>
+        <source>Configure WebDav device</source>
+        <translation>Конфигурация WebDav устройства</translation>
+    </message>
+    <message>
+        <location filename="../src/webdavdeviceconfigdialog.ui" line="20"/>
+        <source>WebDav server host:</source>
+        <translation>Адрес WebDav-сервера:</translation>
+    </message>
+    <message>
+        <location filename="../src/webdavdeviceconfigdialog.ui" line="64"/>
+        <source>TextLabel</source>
+        <translation>TextLabel</translation>
+    </message>
+    <message>
+        <location filename="../src/webdavdeviceconfigdialog.ui" line="79"/>
+        <source>port:</source>
+        <translation>порт:</translation>
+    </message>
+    <message>
+        <location filename="../src/webdavdeviceconfigdialog.ui" line="101"/>
+        <source>Starting path</source>
+        <translation>Стартовый путь:</translation>
+    </message>
+    <message>
+        <location filename="../src/webdavdeviceconfigdialog.ui" line="118"/>
+        <source>Username:</source>
+        <translation>Имя пользователя:</translation>
+    </message>
+    <message>
+        <location filename="../src/webdavdeviceconfigdialog.ui" line="135"/>
+        <source>Password</source>
+        <translation>Пароль:</translation>
+    </message>
+    <message>
+        <location filename="../src/webdavdeviceconfigdialog.cpp" line="53"/>
+        <source>Empty hostname is not allowed</source>
+        <translation>Нельзя задать пустой адрес сервера</translation>
+    </message>
+    <message>
+        <location filename="../src/webdavdeviceconfigdialog.cpp" line="61"/>
+        <source>Empty server port is not allowed</source>
+        <translation>Нельзя указать пустой порт</translation>
     </message>
 </context>
 </TS>

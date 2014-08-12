@@ -25,12 +25,23 @@ a, span.link {
 a.more {
     color: #080;
 }
+div.pager {
+    margin: 5px 0 5px 0;
+}
 div.links-list span.book, div.pager a, span.item {
+    display: inline-block;
     margin: 0 5px 2px 0;
     background-color: #eee;
     border-radius: 5px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #ba748e;
     padding: 0 5px 2px 5px;
     line-height: 150%;
+    font-weight: bold;
+}
+div.pager  span.item {
+    font-size: 150%;
 }
 div.links-list span.book {
     padding-top: 5px;
@@ -107,6 +118,12 @@ div.books-search div.book a.translator:before {
 a:hover {
     color: #f00 !important;
     /*text-decoration: none;*/
+}
+div.float-right {
+    float: right;
+    position: absolute;
+    top: 3px;
+    right: 0;
 }
 
 div.read-book-now, div.save-to-device, div.download-book {
