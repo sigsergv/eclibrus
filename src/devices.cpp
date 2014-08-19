@@ -446,7 +446,8 @@ namespace Eclibrus
     bool deleteDeviceBook(const DeviceInfo & device, DeviceBookInfo & bi)
     {
         QString full_book_filename = bi.path + QDir::separator() + bi.filename;
-        if (device.devType == DeviceInfo::MSD) {
+        switch (device.devType) {
+        case DeviceInfo::MSD: {
             bool res;
             QFileInfo fi(full_book_filename);
             res = QFile::remove(full_book_filename);
@@ -455,6 +456,34 @@ namespace Eclibrus
             QDir d = fi.dir();
             d.rmdir(d.canonicalPath());
             return res;
+            }
+            break;
+
+        case DeviceInfo::WEBDAV: {
+            QWebDav wd;
+            QUrl uri(device.uri);
+
+            QString host = uri.host();
+            int port = uri.port();
+            if (port == -1) {
+                port = 80;
+            }
+
+            wd.connectToHost(host, port, uri.path(), uri.userName(), uri.password());
+            if (QWebDav::NoError != wd.lastError()) {
+                qWarning() << "Failed to init WebDav link: " << device.uri;
+            }
+            full_book_filename = bi.path + bi.filename;
+            wd.remove(full_book_filename);
+            if (QWebDav::NoError == wd.lastError()) {
+                return true;
+            } else {
+                qWarning() << "Failed to delete WebDav item.";
+            }
+
+
+            } 
+            break;
         }
         return false;
     }

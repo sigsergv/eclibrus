@@ -26,6 +26,7 @@ public:
     QList<WebDavItem> list(const QString & path, bool recursive = false);
     void mkdir(const QString & path);
     void put(const QString & localPath, const QString & webdavPath);
+    void remove(const QString & path);
 
 protected:
     QNetworkReply * davRequest(const QString& method, QNetworkRequest& req, const QByteArray& outgoingData);

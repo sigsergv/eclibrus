@@ -291,6 +291,42 @@ void QWebDav::put(const QString & localPath, const QString & webdavPath)
     delete loop;
 }
 
+void QWebDav::remove(const QString & path)
+{
+    QUrl reqUrl(p->baseUrl);
+    QNetworkRequest request;
+
+    reqUrl.setPath(path, QUrl::DecodedMode);
+    request.setUrl(reqUrl);
+
+    reqUrl.setPath(path, QUrl::DecodedMode);
+    request.setUrl(reqUrl);
+
+    p->lastError = NoError;
+    EventLoop * loop;
+    loop = new EventLoop();
+
+    QNetworkReply * reply = davRequest("DELETE", request, QByteArray());
+    connect(reply, SIGNAL(finished()), loop, SLOT(quit()));
+    loop->exec();
+
+    if (p->lastError == AuthFailedError) {
+        qDebug() << "Auth failed";
+        reply->abort();
+        reply->deleteLater();
+        return;
+    }
+
+    if (reply->error() != QNetworkReply::NoError) {
+        p->lastError = NetworkError;
+        qDebug() << reply->errorString();
+        reply->abort();
+        reply->deleteLater();
+        return;
+    }
+    delete loop;
+}
+
 
 void QWebDav::provideAuthentication(QNetworkReply * reply, QAuthenticator * authenticator)
 {
