@@ -30,6 +30,8 @@ namespace Eclibrus
         QString uri;
 
         bool isEmpty();
+
+        bool isEqual(const DeviceInfo & device) const;
     };
 
     struct DeviceBookInfo
@@ -67,7 +69,7 @@ namespace Eclibrus
     /*
      * "Forget" device, remove it from the settings
      */
-    bool unregisterDevice(const QString & uuid);
+    bool unregisterDevice(const DeviceInfo & device);
 
     /*
      * Check and prepare directory in the device's library directory
@@ -89,4 +91,5 @@ namespace Eclibrus
 
 }
 Q_DECLARE_METATYPE(Eclibrus::DeviceBookInfo);
+Q_DECLARE_METATYPE(Eclibrus::DeviceInfo);
 #endif // _DEVICES_H_

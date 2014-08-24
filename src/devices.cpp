@@ -32,6 +32,29 @@ namespace Eclibrus
         return uuid.isEmpty();
     }
 
+    bool DeviceInfo::isEqual(const DeviceInfo & device) const
+    {
+        if (device.devType != devType) {
+            return false;
+        }
+
+        if (device.devType == MSD && device.uuid == uuid) {
+            return true;
+        }
+
+        if (device.devType == WEBDAV) {
+            QUrl diUrl(uri);
+            QUrl deviceUrl(device.uri);
+
+            if (diUrl.host() == deviceUrl.host() && diUrl.port() == deviceUrl.port()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
     /**
      * List of all connected removable devices (MSD only, linux only).
      */
@@ -266,7 +289,7 @@ namespace Eclibrus
         bool found = false;
 
         foreach (const DeviceInfo & di, registered) {
-            if (di.uuid == device.uuid) {
+            if (device.isEqual(di)) {
                 found = true;
                 break;
             }
@@ -283,13 +306,13 @@ namespace Eclibrus
         return true;
     }
 
-    bool unregisterDevice(const QString & uuid)
+    bool unregisterDevice(const DeviceInfo & device)
     {
         QList<DeviceInfo> registered = registeredDevices();
         QList<DeviceInfo> newRegistered;
 
         foreach (const DeviceInfo & di, registered) {
-            if (di.uuid == uuid) {
+            if (device.isEqual(di)) {
                 continue;
             }
             newRegistered << di;

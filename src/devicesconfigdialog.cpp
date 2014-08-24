@@ -19,7 +19,7 @@ struct DevicesConfigDialog::Private
     Ui::DevicesConfigDialog ui;
 };
 
-const int DeviceUuidRole = Qt::UserRole + 1;
+const int DeviceInfoRole = Qt::UserRole + 1;
 
 DevicesConfigDialog::DevicesConfigDialog(QWidget * parent)
     : QDialog(parent)
@@ -44,13 +44,16 @@ void DevicesConfigDialog::reloadDevicesList()
 
     QListWidget * lw = p->ui.devicesList;
 
+    lw->clear();
     foreach (const Eclibrus::DeviceInfo & di, devices) {
         QString dev_name = di.name;
         if (dev_name.isEmpty()) {
             dev_name = QString("UUID: %1").arg(di.uuid);
         }
         QListWidgetItem * item = new QListWidgetItem(dev_name, lw);
-        item->setData(DeviceUuidRole, di.uuid);
+        QVariant v;
+        v.setValue(di);
+        item->setData(DeviceInfoRole, v);
     }
 }
 
@@ -90,8 +93,8 @@ void DevicesConfigDialog::deleteSelectedDevices()
     QList<QListWidgetItem *> selected = lw->selectedItems();
 
     foreach (QListWidgetItem * item, selected) {
-        QString uuid = item->data(DeviceUuidRole).toString();    
-        Eclibrus::unregisterDevice(uuid);
+        Eclibrus::DeviceInfo di = item->data(DeviceInfoRole).value<Eclibrus::DeviceInfo>();   
+        Eclibrus::unregisterDevice(di);
         lw->takeItem(lw->row(item));
     }
 }
