@@ -47,9 +47,9 @@ MainWindow::MainWindow() :
     QAction * quitAction = new QAction(tr("&Quit"), this);
     quitAction->setMenuRole(QAction::QuitRole);
     QAction * devicesConfigAction = new QAction(tr("&Manage removable devices"), this);
-    devicesConfigAction->setShortcut(Qt::Key_D + Qt::CTRL);
+    // devicesConfigAction->setShortcut(Qt::Key_D + Qt::CTRL);
     QAction * manageBooksOnDeviceAction = new QAction(tr("Manage &books on device"), this);
-    manageBooksOnDeviceAction->setShortcut(Qt::Key_B + Qt::CTRL);
+    // manageBooksOnDeviceAction->setShortcut(Qt::Key_B + Qt::CTRL);
     QAction * librarySummaryInfoAction = new QAction(tr("Library &summary"), this);
     QAction * genresSummaryInfoAction = new QAction(tr("&Genres summary"), this);
     QAction * aboutAction = new QAction(tr("&About EcLibRus"), this);
