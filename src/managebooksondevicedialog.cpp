@@ -49,7 +49,9 @@ ManageBooksOnDeviceDialog::ManageBooksOnDeviceDialog(QWidget * parent)
         if (dev_name.isEmpty()) {
             dev_name = di.uuid;
         }
-        p->ui.devicesSelector->addItem(dev_name, di.uuid);
+        QVariant v;
+        v.setValue(di);
+        p->ui.devicesSelector->addItem(dev_name, v);
     }
 }
 
@@ -70,14 +72,7 @@ void ManageBooksOnDeviceDialog::deviceChanged(int row)
 {
     // load books list from the device
     // first find the device
-    QString uuid = p->ui.devicesSelector->itemData(row).toString();
-    Eclibrus::DeviceInfo device;
-    foreach (const Eclibrus::DeviceInfo & di, Eclibrus::connectedRegisteredDevices()) {
-        if (di.uuid == uuid) {
-            device = di;
-            break;
-        }
-    }
+    Eclibrus::DeviceInfo device = p->ui.devicesSelector->itemData(row).value<Eclibrus::DeviceInfo>();
 
     if (device.isEmpty()) {
         return;
