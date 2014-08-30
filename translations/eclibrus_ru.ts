@@ -577,34 +577,44 @@ Eclibrus is an opensource project licensed under GPLv2 terms.</source>
         <translation>Управление книгами на читалке</translation>
     </message>
     <message>
-        <location filename="../src/managebooksondevicedialog.ui" line="25"/>
+        <location filename="../src/managebooksondevicedialog.ui" line="44"/>
         <source>Select device</source>
         <translation>Выберите устройство</translation>
     </message>
     <message>
-        <location filename="../src/managebooksondevicedialog.ui" line="32"/>
+        <location filename="../src/managebooksondevicedialog.ui" line="51"/>
         <source>→</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/managebooksondevicedialog.ui" line="66"/>
+        <location filename="../src/managebooksondevicedialog.ui" line="85"/>
         <source>Delete Books</source>
         <translation>Удалить книги</translation>
     </message>
     <message>
-        <location filename="../src/managebooksondevicedialog.ui" line="73"/>
+        <location filename="../src/managebooksondevicedialog.ui" line="92"/>
         <source>←</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/managebooksondevicedialog.ui" line="86"/>
+        <location filename="../src/managebooksondevicedialog.ui" line="105"/>
         <source>Select books you want to delete and click this button to delete.</source>
         <translation>Выберите книги, которые вы хотите удалить, и нажмите эту кнопку.</translation>
     </message>
     <message>
-        <location filename="../src/managebooksondevicedialog.cpp" line="111"/>
+        <location filename="../src/managebooksondevicedialog.ui" line="134"/>
+        <source>Please wait while books list is loading</source>
+        <translation>Подождите, пожалуйста, пока грузится список книг</translation>
+    </message>
+    <message>
+        <location filename="../src/managebooksondevicedialog.cpp" line="133"/>
         <source>File size: %1</source>
         <translation>Размер файла: %1</translation>
+    </message>
+    <message>
+        <location filename="../src/managebooksondevicedialog.cpp" line="135"/>
+        <source>File name: %1</source>
+        <translation>Имя файла: %1</translation>
     </message>
 </context>
 <context>

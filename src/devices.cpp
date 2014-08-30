@@ -228,6 +228,7 @@ namespace Eclibrus
                 connectedMap[di.uuid] = di;
             }
             foreach (DeviceInfo di, registered) {
+                QCoreApplication::processEvents();
                 if (di.devType == DeviceInfo::MSD && connectedMap.contains(di.uuid)) {
                     QString name = di.name;
                     di = connectedMap[di.uuid];
@@ -444,19 +445,19 @@ namespace Eclibrus
             QList<WebDavItem> items = wd.list(path, true);
             // do not rely upon item.name, always parse item.href
             foreach (const WebDavItem & item, items) {
+                QCoreApplication::processEvents();
                 if (item.type == WebDavItemDirectory) {
                     // we need files only, so ignore directories
                     continue;
                 }
-                QUrl url;
-                url.setPath(item.href, QUrl::StrictMode);
-                QString fullPath = url.toDisplayString(QUrl::RemoveScheme|\
-                    QUrl::RemoveAuthority|QUrl::RemoveQuery|QUrl::RemoveFragment);
-                QString fileName = fullPath.split("/").last();
+                QStringList urlParts = item.href.split("/");
+                QString encodedFileName = urlParts.takeLast();
+                QString encodedPath = urlParts.join("/");
+
+                QString fileName = QUrl::fromPercentEncoding(encodedFileName.toLatin1());
 
                 DeviceBookInfo bi;
-                bi.path = url.toDisplayString(QUrl::RemoveFilename|QUrl::RemoveScheme|\
-                    QUrl::RemoveAuthority|QUrl::RemoveQuery|QUrl::RemoveFragment);
+                bi.path = QUrl::fromPercentEncoding(encodedPath.toLatin1());
                 bi.filesize = 0;
                 bi.filename = fileName;
                 bi.metaId = item.href;
@@ -496,8 +497,8 @@ namespace Eclibrus
             if (QWebDav::NoError != wd.lastError()) {
                 qWarning() << "Failed to init WebDav link: " << device.uri;
             }
-            full_book_filename = bi.path + bi.filename;
-            wd.remove(full_book_filename);
+            full_book_filename = bi.metaId; //bi.path + bi.filename;
+            wd.remove(full_book_filename, false);
             if (QWebDav::NoError == wd.lastError()) {
                 return true;
             } else {

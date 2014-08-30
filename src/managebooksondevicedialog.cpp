@@ -20,6 +20,7 @@ struct ManageBooksOnDeviceDialog::Private
     Ui::ManageBooksOnDeviceDialog ui;
     QStandardItemModel * model;
     Eclibrus::DeviceInfo currentDevice;
+    bool listPopulated;
 };
 
 ManageBooksOnDeviceDialog::ManageBooksOnDeviceDialog(QWidget * parent)
@@ -27,15 +28,11 @@ ManageBooksOnDeviceDialog::ManageBooksOnDeviceDialog(QWidget * parent)
 {
     p = new Private;
     p->ui.setupUi(this);
+    p->listPopulated = false;
 
     p->model = new QStandardItemModel();
     p->ui.booksTreeView->setModel(p->model);
-
-    // connect signals
-    connect(p->ui.devicesSelector, SIGNAL(activated(int)),
-        this, SLOT(deviceChanged(int)));
-    connect(p->ui.deleteSelectedBooksButton, SIGNAL(pressed()),
-        this, SLOT(deleteSelectedBooks()));
+    p->ui.pages->setCurrentIndex(1);
 
     // restore position
     QSettings * settings = Eclibrus::Config::settings();
@@ -43,16 +40,11 @@ ManageBooksOnDeviceDialog::ManageBooksOnDeviceDialog(QWidget * parent)
     restoreGeometry(settings->value("geometry").toByteArray());
     settings->endGroup();
 
-    // we need to populate list of devices
-    foreach (const Eclibrus::DeviceInfo & di, Eclibrus::connectedRegisteredDevices()) {
-        QString dev_name = di.name;
-        if (dev_name.isEmpty()) {
-            dev_name = di.uuid;
-        }
-        QVariant v;
-        v.setValue(di);
-        p->ui.devicesSelector->addItem(dev_name, v);
-    }
+    // connect signals
+    connect(p->ui.devicesSelector, SIGNAL(activated(int)),
+        this, SLOT(deviceChanged(int)));
+    connect(p->ui.deleteSelectedBooksButton, SIGNAL(pressed()),
+        this, SLOT(deleteSelectedBooks()));
 }
 
 ManageBooksOnDeviceDialog::~ManageBooksOnDeviceDialog()
@@ -60,12 +52,34 @@ ManageBooksOnDeviceDialog::~ManageBooksOnDeviceDialog()
     delete p;
 }
 
+void ManageBooksOnDeviceDialog::setVisible(bool visible)
+{
+    QDialog::setVisible(visible);
+    if (visible) {
+        p->listPopulated = true;
+        // we need to populate list of devices
+        foreach (const Eclibrus::DeviceInfo & di, Eclibrus::connectedRegisteredDevices()) {
+            QString dev_name = di.name;
+            if (dev_name.isEmpty()) {
+                dev_name = di.uuid;
+            }
+            QVariant v;
+            v.setValue(di);
+            p->ui.devicesSelector->addItem(dev_name, v);
+        }
+
+        if (p->ui.devicesSelector->count() > 0) {
+            deviceChanged(0);
+        }
+        p->ui.pages->setCurrentIndex(0);
+    }
+
+}
+
+
 void ManageBooksOnDeviceDialog::showEvent(QShowEvent * event)
 {
-    event->accept();
-    if (p->ui.devicesSelector->count() > 0) {
-        deviceChanged(0);
-    }
+    QDialog::showEvent(event);
 }
 
 void ManageBooksOnDeviceDialog::deviceChanged(int row)
@@ -80,6 +94,7 @@ void ManageBooksOnDeviceDialog::deviceChanged(int row)
 
     qDebug() << device.uri;
 
+    p->ui.booksTreeView->setEnabled(false);
     QList<Eclibrus::DeviceBookInfo> books = Eclibrus::deviceLibraryBooks(device);
     p->model->clear();
     QStandardItem * item;
@@ -89,24 +104,42 @@ void ManageBooksOnDeviceDialog::deviceChanged(int row)
     //text_font.setItalic(true);
     text_font.setBold(true);
 
+    QMap<QString, QList< Eclibrus::DeviceBookInfo> > tree;
+
     foreach (const Eclibrus::DeviceBookInfo & bi, books) {
-        if (bi.path != prev_book_path) {
-            // entered new directory
-            item = new QStandardItem(bi.path);
-            p->model->appendRow(item);
-            item->setCheckable(false);
-            item->setForeground(text_brush);
-            item->setFont(text_font);
-            item->setFlags(Qt::NoItemFlags);
-            prev_book_path = bi.path;
+        if (!tree.contains(bi.path)) {
+            tree[bi.path] = QList<Eclibrus::DeviceBookInfo>();
         }
-        item = new QStandardItem(bi.filename);
-        item->setCheckable(true);
-        item->setData(QVariant::fromValue<Eclibrus::DeviceBookInfo>(bi), DeviceInfoRole);
-        item->setToolTip(tr("File size: %1").arg(Eclibrus::Plain::fileSizeHumanReadable(bi.filesize)));
-        p->model->appendRow(item);
+        tree[bi.path] << bi;
     }
+    
+    QStringList keys(tree.keys());
+    keys.sort(Qt::CaseInsensitive);
+    
+    foreach (const QString & key, keys) {
+        item = new QStandardItem(key);
+        p->model->appendRow(item);
+        item->setCheckable(false);
+        item->setForeground(text_brush);
+        item->setFont(text_font);
+        item->setFlags(Qt::NoItemFlags);
+
+        foreach (const Eclibrus::DeviceBookInfo & bi, tree[key]) {
+            item = new QStandardItem(bi.filename);
+            item->setCheckable(true);
+            item->setData(QVariant::fromValue<Eclibrus::DeviceBookInfo>(bi), DeviceInfoRole);
+            QStringList parts;
+            if (bi.filesize > 0) {
+                parts << tr("File size: %1").arg(Eclibrus::Plain::fileSizeHumanReadable(bi.filesize));
+            }
+            parts << tr("File name: %1").arg(bi.filename);
+            item->setToolTip(parts.join("\n"));
+            p->model->appendRow(item);
+        }
+    }
+
     p->currentDevice = device;
+    p->ui.booksTreeView->setEnabled(true);
 }
 
 void ManageBooksOnDeviceDialog::deleteSelectedBooks()

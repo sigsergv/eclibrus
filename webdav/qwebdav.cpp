@@ -16,12 +16,14 @@ struct QWebDav::Private
     QWebDav::Error lastError;
 
     QNetworkReply * lastAuthReply;
+    QStringList stopDirs;
 };
 
 QWebDav::QWebDav(QObject* parent)
     : QNetworkAccessManager(parent)
 {
     p = new Private();
+    p->stopDirs << ".FBReader" << ".MoonReader" << ".cr3sync";
     p->lastError = NoError;
 
     connect(this, SIGNAL(authenticationRequired(QNetworkReply*,QAuthenticator*)), this, SLOT(provideAuthentication(QNetworkReply*,QAuthenticator*)));
@@ -192,6 +194,16 @@ QList<WebDavItem> QWebDav::list(const QString & path, bool recursive)
         // fetch all child nodes
         foreach (const WebDavItem & item, items) {
             if (item.type == WebDavItemDirectory) {
+                // exclude dirs from stoplist
+                QStringList components = item.href.split("/");
+                QString dirName = components.takeLast();
+                if (dirName == "") {
+                    dirName = components.takeLast();
+                }
+                dirName = QUrl::fromPercentEncoding(dirName.toLatin1());
+                if (p->stopDirs.indexOf(dirName) != -1) {
+                    continue;
+                }
                 QList<WebDavItem> subItems = list(item.href, true);
                 if (p->lastError != NoError) {
                     qDebug() << "Failed to list subitems for collection" << item.href;
@@ -291,15 +303,16 @@ void QWebDav::put(const QString & localPath, const QString & webdavPath)
     delete loop;
 }
 
-void QWebDav::remove(const QString & path)
+void QWebDav::remove(const QString & path, bool decoded)
 {
     QUrl reqUrl(p->baseUrl);
     QNetworkRequest request;
 
-    reqUrl.setPath(path, QUrl::DecodedMode);
-    request.setUrl(reqUrl);
-
-    reqUrl.setPath(path, QUrl::DecodedMode);
+    if (decoded) {
+        reqUrl.setPath(path, QUrl::DecodedMode);
+    } else {
+        reqUrl.setPath(path, QUrl::StrictMode);
+    }
     request.setUrl(reqUrl);
 
     p->lastError = NoError;

@@ -17,6 +17,7 @@ class ManageBooksOnDeviceDialog : public QDialog
 public:
     ManageBooksOnDeviceDialog(QWidget * parent = 0);
     ~ManageBooksOnDeviceDialog();
+    virtual void setVisible(bool visible);
 
 protected slots:
     void deviceChanged(int);

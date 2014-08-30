@@ -81,8 +81,9 @@ MainWindow::MainWindow() :
     fileMenu->addAction(newBrowserTabAction);
     fileMenu->addAction(prefsAction);
     fileMenu->addAction(quitAction);
+    fileMenu->addSeparator();
+    fileMenu->addAction(devicesConfigAction);
     QMenu * devicesMenu = menuBar()->addMenu(tr("&Devices"));
-    devicesMenu->addAction(devicesConfigAction);
     devicesMenu->addAction(manageBooksOnDeviceAction);
     QMenu * infoMenu = menuBar()->addMenu(tr("&Information"));
     infoMenu->addAction(librarySummaryInfoAction);
