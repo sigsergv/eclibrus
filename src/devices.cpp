@@ -237,7 +237,7 @@ namespace Eclibrus
                 }
                 if (di.devType == DeviceInfo::WEBDAV) {
                     // check 
-                    qDebug() << "WebDav device check";
+                    qDebug() << "WebDav device check:" << di.uri;
                     QUrl uri(di.uri);
 
                     QString host = uri.host();
@@ -353,6 +353,7 @@ namespace Eclibrus
 
             case DeviceInfo::WEBDAV: {
                 // try to connect device and create directory "subdir" there
+                // qDebug() << "Check and create directory if required";
                 QWebDav wd;
                 QUrl uri(device.uri);
 
@@ -365,18 +366,49 @@ namespace Eclibrus
                 wd.connectToHost(host, port, uri.path(), uri.userName(), uri.password());
                 if (QWebDav::NoError != wd.lastError()) {
                     qWarning() << "Failed to init WebDav link: " << device.uri;
+                    switch (wd.lastError()) {
+                    case QWebDav::AuthFailedError:
+                        qDebug() << "AuthFailedError";
+                        break;
+
+                    case QWebDav::ConnectionTimeoutError:
+                        qDebug() << "ConnectionTimeoutError";
+                        break;
+
+                    case QWebDav::NetworkError:
+                        qDebug() << "NetworkError";
+                        break;
+
+                    case QWebDav::XmlParsingError:
+                        qDebug() << "XmlParsingError";
+                        break;
+
+                    case QWebDav::NoSourceLocalFile:
+                        qDebug() << "NoSourceLocalFile";
+                        break;
+                    }
                     return QString();
                 }
+                // qDebug() << "Check directory complete";
 
                 QString rootPath = uri.path();
                 if (!rootPath.endsWith("/")) {
                     rootPath += "/";
                 }
 
-                wd.mkdir(rootPath + subdir);
-                if (QWebDav::NoError == wd.lastError()) {
-                    path = rootPath + subdir;
+                wd.checkdir(rootPath + subdir);
+                if (QWebDav::NoError != wd.lastError()) {
+                    if (QWebDav::NotFound == wd.lastError()) {
+                        wd.mkdir(rootPath + subdir);
+                        if (QWebDav::NoError != wd.lastError()) {
+                            return QString();
+                        }
+                    } else {
+                        return QString();
+                    }
                 }
+                path = rootPath + subdir;
+                
                 break;
             }
         }

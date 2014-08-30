@@ -71,26 +71,28 @@ void QWebDav::connectToHost(const QString & hostName, quint16 port, const QStrin
     p->lastError = NoError;
     EventLoop * loop;
     loop = new EventLoop();
+    qDebug() << "DAV request to:" << reqUrl;
     QNetworkReply * reply = davRequest("GET", request, QByteArray());
     connect(reply, SIGNAL(finished()), loop, SLOT(quit()));
-    QTimer::singleShot(2000, loop, SLOT(quitTimeout()));  // 2 seconds timeout
+    QTimer::singleShot(3000, loop, SLOT(quitTimeout()));  // 3 seconds timeout
     loop->exec();
 
     if (loop->status() == EventLoop::StatusTimeout && reply->isRunning()) {
-        // connection is not established, so terminated it and emit corresponding signal
+        // connection is not established, so terminate it and emit corresponding signal
         reply->abort();
         reply->deleteLater();
-        qDebug() << "connection timeout";
+        qDebug() << "connection timeout" << p->baseUrl;
         p->lastError = ConnectionTimeoutError;
         return;
     }
     if (p->lastError != AuthFailedError && reply->error() != QNetworkReply::NoError) {
         p->lastError = NetworkError;
-        qDebug() << reply->errorString();
+        qDebug() << "other error:" << reply->errorString();
         reply->abort();
         reply->deleteLater();
         return;
     }
+    qDebug() << "DAV request complete";
     delete loop;
 
     // connection successful, so destroy reply and continue
@@ -159,6 +161,7 @@ QList<WebDavItem> QWebDav::list(const QString & path, bool recursive)
         qDebug() << "Auth failed";
         reply->abort();
         reply->deleteLater();
+        delete loop;
         return QList<WebDavItem>();
     }
 
@@ -167,6 +170,7 @@ QList<WebDavItem> QWebDav::list(const QString & path, bool recursive)
         qDebug() << reply->errorString();
         reply->abort();
         reply->deleteLater();
+        delete loop;
         return QList<WebDavItem>();
     }
     delete loop;
@@ -221,6 +225,49 @@ QList<WebDavItem> QWebDav::list(const QString & path, bool recursive)
 }
 
 
+void QWebDav::checkdir(const QString & path)
+{
+    QUrl reqUrl(p->baseUrl);
+    QNetworkRequest request;
+
+    reqUrl.setPath(path, QUrl::StrictMode);
+    request.setUrl(reqUrl);
+
+    p->lastError = NoError;
+    EventLoop * loop;
+    loop = new EventLoop();
+
+    QByteArray query;
+    QNetworkReply * reply = davRequest("GET", request, query);
+    connect(reply, SIGNAL(finished()), loop, SLOT(quit()));
+    loop->exec();
+
+    if (p->lastError == AuthFailedError) {
+        qDebug() << "Auth failed";
+        reply->abort();
+        reply->deleteLater();
+        delete loop;
+        return;
+    }
+
+    if (reply->error() != QNetworkReply::NoError) {
+        qDebug() << "checkdir" << reply->errorString() << reply->error();
+        if (reply->error() == QNetworkReply::ContentNotFoundError) {
+            p->lastError = NotFound;
+        } else {
+            p->lastError = NetworkError;
+        }
+
+        reply->abort();
+        reply->deleteLater();
+        delete loop;
+        return;
+    }
+    qDebug() << "checkbook finished";
+    delete loop;
+}
+
+
 void QWebDav::mkdir(const QString & path)
 {
     QUrl reqUrl(p->baseUrl);
@@ -242,6 +289,7 @@ void QWebDav::mkdir(const QString & path)
         qDebug() << "Auth failed";
         reply->abort();
         reply->deleteLater();
+        delete loop;
         return;
     }
 
@@ -250,6 +298,7 @@ void QWebDav::mkdir(const QString & path)
         qDebug() << reply->errorString();
         reply->abort();
         reply->deleteLater();
+        delete loop;
         return;
     }
     delete loop;
@@ -290,14 +339,16 @@ void QWebDav::put(const QString & localPath, const QString & webdavPath)
         qDebug() << "Auth failed";
         reply->abort();
         reply->deleteLater();
+        delete loop;
         return;
     }
 
     if (reply->error() != QNetworkReply::NoError) {
         p->lastError = NetworkError;
-        qDebug() << reply->errorString();
+        qDebug() << "other error:" << reply->errorString();
         reply->abort();
         reply->deleteLater();
+        delete loop;
         return;
     }
     delete loop;
@@ -327,6 +378,7 @@ void QWebDav::remove(const QString & path, bool decoded)
         qDebug() << "Auth failed";
         reply->abort();
         reply->deleteLater();
+        delete loop;
         return;
     }
 
@@ -335,6 +387,7 @@ void QWebDav::remove(const QString & path, bool decoded)
         qDebug() << reply->errorString();
         reply->abort();
         reply->deleteLater();
+        delete loop;
         return;
     }
     delete loop;

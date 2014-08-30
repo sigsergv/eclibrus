@@ -15,7 +15,7 @@ class QWebDav : public QNetworkAccessManager
 {
     Q_OBJECT
 public:
-    enum Error {NoError=0, AuthFailedError, ConnectionTimeoutError, NetworkError, XmlParsingError, NoSourceLocalFile};
+    enum Error {NoError=0, AuthFailedError, ConnectionTimeoutError, NetworkError, XmlParsingError, NoSourceLocalFile, NotFound};
 
     QWebDav(QObject* parent = 0);
     ~QWebDav();
@@ -24,6 +24,7 @@ public:
     void connectToHost(const QString & hostName, quint16 port, const QString & startPath, const QString & username, const QString & password);
 
     QList<WebDavItem> list(const QString & path, bool recursive = false);
+    void checkdir(const QString & path);
     void mkdir(const QString & path);
     void put(const QString & localPath, const QString & webdavPath);
     void remove(const QString & path, bool decoded = true);
