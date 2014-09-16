@@ -1,0 +1,22 @@
+#!/bin/bash
+
+APP_PACKAGE=../eclibrus.app
+DMG_PACKAGE=../eclibrus.dmg
+TEMPDIR=./tmp-eclibrus-dmg
+
+rm -rf $TEMPDIR
+
+mkdir $TEMPDIR
+
+# copy package
+cp -r $APP_PACKAGE $TEMPDIR
+
+# create symlink to /Applications
+ln -s /Applications $TEMPDIR/Applications
+
+# create DMG package
+rm -f $DMG_PACKAGE
+hdiutil create -srcfolder $TEMPDIR -format UDBZ $DMG_PACKAGE
+
+# cleanup
+rm -rf $TEMPDIR
