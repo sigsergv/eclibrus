@@ -69,6 +69,10 @@ linux-g++-32 {
     LIBS += -lblkid
 }
 
+linux-g++ {
+    LIBS += -lblkid
+}
+
 linux-g++-64 {
     LIBS += -lblkid
 }
