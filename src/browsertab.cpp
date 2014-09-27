@@ -93,6 +93,7 @@ BrowserTab::BrowserTab(QWidget * parent) :
     p->view->page()->setNetworkAccessManager(newManager);
 
     QBoxLayout * topLayout = new QHBoxLayout;
+    topLayout->addSpacing(6);
     topLayout->addWidget(p->histBackButton);
     topLayout->addSpacing(4);
     topLayout->addWidget(p->histForwardButton);

@@ -42,10 +42,14 @@ MainWindow::MainWindow() :
     QAction *newBrowserTabAction = new QAction(tr("&New browser tab"), this);
     newBrowserTabAction->setShortcut(Qt::Key_T + Qt::CTRL);
     QAction * prefsAction = new QAction(tr("&Preferences"), this);
+#ifdef Q_OS_MAC
     prefsAction->setMenuRole(QAction::PreferencesRole);
+#endif
     prefsAction->setShortcut(Qt::Key_P + Qt::CTRL);
     QAction * quitAction = new QAction(tr("&Quit"), this);
+#ifdef Q_OS_MAC
     quitAction->setMenuRole(QAction::QuitRole);
+#endif
     QAction * devicesConfigAction = new QAction(tr("&Manage removable devices"), this);
     // devicesConfigAction->setShortcut(Qt::Key_D + Qt::CTRL);
     QAction * manageBooksOnDeviceAction = new QAction(tr("Manage &books on device"), this);
@@ -53,7 +57,9 @@ MainWindow::MainWindow() :
     QAction * librarySummaryInfoAction = new QAction(tr("Library &summary"), this);
     QAction * genresSummaryInfoAction = new QAction(tr("&Genres summary"), this);
     QAction * aboutAction = new QAction(tr("&About EcLibRus"), this);
+#ifdef Q_OS_MAC
     aboutAction->setMenuRole(QAction::AboutRole);
+#endif
 
     // connect actions
     connect(p->tabs, SIGNAL(tabCloseRequested(int)),
@@ -80,9 +86,9 @@ MainWindow::MainWindow() :
     QMenu * fileMenu = menuBar()->addMenu(tr("&File"));
     fileMenu->addAction(newBrowserTabAction);
     fileMenu->addAction(prefsAction);
-    fileMenu->addAction(quitAction);
-    fileMenu->addSeparator();
     fileMenu->addAction(devicesConfigAction);
+    fileMenu->addSeparator();
+    fileMenu->addAction(quitAction);
     QMenu * devicesMenu = menuBar()->addMenu(tr("&Devices"));
     devicesMenu->addAction(manageBooksOnDeviceAction);
     QMenu * infoMenu = menuBar()->addMenu(tr("&Information"));
@@ -147,6 +153,7 @@ void MainWindow::newBrowserTab(const QUrl & url)
 #ifdef QT_NO_DEBUG
         tab->setUrl(QUrl("qrc:/index.ru.html"));
 #else
+        // tab->setUrl(QUrl("qrc:/index.ru.html"));
         tab->setUrl(QUrl("eclib:author?id=10536"));
         //tab->setUrl(QUrl("eclib:book?id=114532"));
 #endif
@@ -165,8 +172,8 @@ void MainWindow::closeTab(int index)
     if (!tab) {
         return;
     }
-    delete tab;
     p->tabs->removeTab(index);
+    delete tab;
 }
 
 void MainWindow::tabChanged(int index)
