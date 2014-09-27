@@ -32,3 +32,9 @@ Makefile*
 /eclibrus.sublime-workspace
 /eclibrus.app
 /eclibrus.dmg
+/build-stamp
+/builddir
+/debian/*.log
+/debian/*.substvars
+/debian/eclibrus/
+/debian/files
