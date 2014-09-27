@@ -1,3 +1,9 @@
+eclibrus (1.4.1-1) unstable; urgency=medium
+
+  * new release
+
+ -- Sergey Stolyarov <sergei.stolyarov@regolit.com>  Sat, 27 Sep 2014 17:32:08 +0700
+
 eclibrus (1.4-1) unstable; urgency=medium
 
   * v1.4 release: qt5.3, further macos improvements, GUI and layout fixes

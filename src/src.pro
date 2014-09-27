@@ -1,4 +1,4 @@
-DEFINES += ECLIBRUS_VERSION="\\\"1.4\\\""
+DEFINES += ECLIBRUS_VERSION="\\\"1.4.1\\\""
 
 HEADERS += mainwindow.h \
     settings.h \

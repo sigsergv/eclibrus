@@ -24,3 +24,12 @@ function collapseBlock(block_id, link_on_id, link_off_id)
     link_on.style.display = 'inline';
     link_off.style.display = 'none';
 }
+
+function pageSelectorChanged(el)
+{
+    var url_tpl = el.getAttribute("data-url-tpl"),
+        page = el.value,
+        url = url_tpl.replace('{page}', (page-1));
+
+    window.document.location.href = url;
+}

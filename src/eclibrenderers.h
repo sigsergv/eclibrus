@@ -34,7 +34,7 @@ namespace Html
     QString bookIcons(int bookId);
     QString bookLink(int bookId, const QString & title, const QString & comment);
     QString booksList(QSqlQuery & q, int page = 0, int * totalBooksRef = 0);
-    QString pager(int page, int totalItems, const QString & linkTpl);
+    QString pager(int page, int totalItems, const QString & linkTpl, const QString & urlTpl);
 }
 
 namespace Plain

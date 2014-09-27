@@ -287,7 +287,7 @@ namespace Html
         return html;
     }
 
-    QString pager(int page, int totalItems, const QString & linkTpl)
+    QString pager(int page, int totalItems, const QString & linkTpl, const QString & urlTpl)
     {
         QString pager;
         int page_size = Eclibrus::Config::itemsPerPage();
@@ -327,8 +327,22 @@ namespace Html
         if (page < last_page) {
             pager += linkTpl.arg(total_pages - 1).arg(EclibReply::tr("last page"));
         }
+
+        QString pages_selector = QString("%1 <select data-url-tpl=\"%2\" onchange=\"pageSelectorChanged(this);\">")\
+            .arg(EclibReply::tr("Switch to page:"))\
+            .arg(urlTpl);
+        QString item_tpl = QString("<option value=\"%1\"%2>&nbsp;%1&nbsp;</option>");
+        // add option for every page number
+        for (int i=0; i<total_pages; i++) {
+            QString sel = "";
+            if (page == i) {
+                sel = " selected";
+            }
+            pages_selector += item_tpl.arg(i+1).arg(sel);
+        }
+        pages_selector += "</select>";
         
-        return QString("<div class=\"inline pager\">%1</a>").arg(pager);
+        return QString("<div class=\"inline pager\">%1 %2</div>").arg(pager).arg(pages_selector);
     }
 
 }

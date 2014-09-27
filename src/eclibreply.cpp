@@ -536,12 +536,13 @@ namespace Eclibrus
 
         QString link_tpl = QString("<a href=\"eclib:genre?id=%1&page=%2\">%3</a>")
             .arg(QString::number(genreId), "%1", "%2");
+        QString url_tpl = QString("eclib:genre?id=%1&page={page}").arg(QString::number(genreId));
         html += QString("<div>%1</div><div>%2</div>")
             .arg(tr("Total books: %1, showing from %2 to %3")
                 .arg(total_books)
                 .arg(page_size * page + 1)
                 .arg(page_size * (page + 1)))
-            .arg(Html::pager(page, total_books, link_tpl));
+            .arg(Html::pager(page, total_books, link_tpl, url_tpl));
         html += books;
 
         html += "</div>";
