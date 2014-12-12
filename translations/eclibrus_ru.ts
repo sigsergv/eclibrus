@@ -14,32 +14,52 @@
         <translation>Eclibrus</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.ui" line="55"/>
+        <location filename="../src/aboutdialog.ui" line="33"/>
+        <source>Eclibrus — is a simple eBooks library organizer.
+
+Program version: {version}
+
+Compiled with Qt version: {qt_version}
+
+It&apos;s mainly intended for my personal use so don&apos;t expect any documentation or tech support.
+
+Eclibrus is an opensource project licensed under GPLv2 terms.</source>
+        <translation type="unfinished">Eclibrus — это простой каталогизатор-органайзер для коллекции электронных книг.
+
+Версия программы: {version}
+
+Скомпилировано с версией Qt: {qt_version}
+
+Программа предназначена в основном для моего личного использования, так что не ждите ни документации, ни техподдержки.
+
+Тем не менее, Eclibrus — проект с открытым исходным кодом (GPLv2).</translation>
+    </message>
+    <message>
+        <location filename="../src/aboutdialog.ui" line="57"/>
         <source>&lt;a href=&quot;https://bitbucket.org/cancel/eclibrus&quot;&gt;https://bitbucket.org/cancel/eclibrus&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;https://bitbucket.org/cancel/eclibrus&quot;&gt;https://bitbucket.org/cancel/eclibrus&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.ui" line="85"/>
+        <location filename="../src/aboutdialog.ui" line="87"/>
         <source>Idea and development:</source>
         <translation>Идея и программирование:</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.ui" line="92"/>
+        <location filename="../src/aboutdialog.ui" line="94"/>
         <source>Sergey Stolyarov &lt;sergei@regolit.com&gt;</source>
         <translation>Сергей Столяров &lt;sergei@regolit.com&gt;</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.ui" line="125"/>
+        <location filename="../src/aboutdialog.ui" line="127"/>
         <source>Eclibrus itself release under GPLv2 license terms.</source>
         <translation>Eclibrus выпущен под лицензией GPLv2.</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.ui" line="79"/>
+        <location filename="../src/aboutdialog.ui" line="81"/>
         <source>Authors</source>
         <translation>Авторы</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.ui" line="33"/>
         <source>Eclibrus — is a simple eBooks library organizer.
 
 Program version: {version}
@@ -47,7 +67,7 @@ Program version: {version}
 It&apos;s mainly intended for my personal use so don&apos;t expect any documentation or tech support.
 
 Eclibrus is an opensource project licensed under GPLv2 terms.</source>
-        <translation>Eclibrus — это простой каталогизатор-органайзер для коллекции электронных книг.
+        <translation type="vanished">Eclibrus — это простой каталогизатор-органайзер для коллекции электронных книг.
 
 Версия программы: {version}
 
@@ -56,7 +76,7 @@ Eclibrus is an opensource project licensed under GPLv2 terms.</source>
 Тем не менее, Eclibrus — проект с открытым исходным кодом (GPLv2).</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.ui" line="119"/>
+        <location filename="../src/aboutdialog.ui" line="121"/>
         <source>Licenses</source>
         <translation>Лицензии</translation>
     </message>
@@ -84,10 +104,10 @@ Eclibrus is an opensource project licensed under GPLv2 terms.</source>
     <message>
         <location filename="../src/browsertab.cpp" line="46"/>
         <location filename="../src/browsertab.cpp" line="53"/>
-        <location filename="../src/browsertab.cpp" line="141"/>
-        <location filename="../src/browsertab.cpp" line="162"/>
-        <location filename="../src/browsertab.cpp" line="182"/>
-        <location filename="../src/browsertab.cpp" line="296"/>
+        <location filename="../src/browsertab.cpp" line="142"/>
+        <location filename="../src/browsertab.cpp" line="163"/>
+        <location filename="../src/browsertab.cpp" line="183"/>
+        <location filename="../src/browsertab.cpp" line="297"/>
         <source>Warning</source>
         <translation>Предупреждение</translation>
     </message>
@@ -112,13 +132,13 @@ Eclibrus is an opensource project licensed under GPLv2 terms.</source>
         <translation>Искать</translation>
     </message>
     <message>
-        <location filename="../src/browsertab.cpp" line="142"/>
-        <location filename="../src/browsertab.cpp" line="163"/>
+        <location filename="../src/browsertab.cpp" line="143"/>
+        <location filename="../src/browsertab.cpp" line="164"/>
         <source>Cannot export book to device&apos;s library directory.</source>
         <translation>Не удалось экспортировать книгу в библиотеку на внешней читалке.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/browsertab.cpp" line="183"/>
+        <location filename="../src/browsertab.cpp" line="184"/>
         <source>Do you really want to export all %n books?</source>
         <comment>xx</comment>
         <translation>
@@ -128,12 +148,12 @@ Eclibrus is an opensource project licensed under GPLv2 terms.</source>
         </translation>
     </message>
     <message>
-        <location filename="../src/browsertab.cpp" line="296"/>
+        <location filename="../src/browsertab.cpp" line="297"/>
         <source>Cannot find archive in the library database.</source>
         <translation>Не удалось найти файл архива в базе данных.</translation>
     </message>
     <message>
-        <location filename="../src/browsertab.cpp" line="300"/>
+        <location filename="../src/browsertab.cpp" line="301"/>
         <source>FictionBook2 files (*.fb2.zip) (*.fb2.zip)</source>
         <translation>Файлы FictionBook2 (*.fb2.zip) (*.fb2.zip)</translation>
     </message>
@@ -519,57 +539,57 @@ Eclibrus is an opensource project licensed under GPLv2 terms.</source>
         <translation>&amp;Настройки</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="47"/>
+        <location filename="../src/mainwindow.cpp" line="49"/>
         <source>&amp;Quit</source>
         <translation>В&amp;ыход</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="49"/>
+        <location filename="../src/mainwindow.cpp" line="53"/>
         <source>&amp;Manage removable devices</source>
         <translation>Управление внешними &amp;устройствами</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="51"/>
+        <location filename="../src/mainwindow.cpp" line="55"/>
         <source>Manage &amp;books on device</source>
         <translation>Управление &amp;книгами на читалке</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="53"/>
+        <location filename="../src/mainwindow.cpp" line="57"/>
         <source>Library &amp;summary</source>
         <translation>Про &amp;библиотеку</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="54"/>
+        <location filename="../src/mainwindow.cpp" line="58"/>
         <source>&amp;Genres summary</source>
         <translation>Все &amp;жанры</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="55"/>
+        <location filename="../src/mainwindow.cpp" line="59"/>
         <source>&amp;About EcLibRus</source>
         <translation>&amp;О программе EcLibRus</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="80"/>
+        <location filename="../src/mainwindow.cpp" line="86"/>
         <source>&amp;File</source>
         <translation>&amp;Файл</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="86"/>
+        <location filename="../src/mainwindow.cpp" line="92"/>
         <source>&amp;Devices</source>
         <translation>&amp;Устройства</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="88"/>
+        <location filename="../src/mainwindow.cpp" line="94"/>
         <source>&amp;Information</source>
         <translation>&amp;Информация</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="91"/>
+        <location filename="../src/mainwindow.cpp" line="97"/>
         <source>&amp;Help</source>
         <translation>&amp;Помощь</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="156"/>
+        <location filename="../src/mainwindow.cpp" line="163"/>
         <source>Library browser</source>
         <translation>Библиотека</translation>
     </message>

@@ -34,6 +34,8 @@
 
 Program version: {version}
 
+Compiled with Qt version: {qt_version}
+
 It's mainly intended for my personal use so don't expect any documentation or tech support.
 
 Eclibrus is an opensource project licensed under GPLv2 terms.</string>

@@ -23,5 +23,6 @@ AboutDialog::AboutDialog(QWidget * parent)
     // modify About text, add version info
     QString aboutText = p->ui.aboutLabel->text();
     aboutText.replace("{version}", QString(ECLIBRUS_VERSION));
+    aboutText.replace("{qt_version}", QString(QT_VERSION_STR));
     p->ui.aboutLabel->setText(aboutText);
 }
