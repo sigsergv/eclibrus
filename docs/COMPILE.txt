@@ -45,5 +45,7 @@ Now you can execute the application:
 
     ./eclibrus.app/Contents/MacOS/eclibrus
 
+To prepare dmg-file we need to compile release version first, then go to scripts
+directory and run ./create-dmg script there.
 
 
