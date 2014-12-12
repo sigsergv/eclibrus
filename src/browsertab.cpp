@@ -285,11 +285,7 @@ void BrowserTab::downloadBook(int bookId)
     QFileDialog save_dialog;
     QPair<QString, QString> pair = Eclibrus::Db::archivedBookFile(bookId);
     QString basename = Eclibrus::Plain::bookFileName(bookId);
-#ifdef Q_OS_MAC
-    QString filename = basename;
-#else
     QString filename = basename + ".fb2.zip";
-#endif
     qDebug() << "filename" << filename;
     QStringList name_filters;
 
@@ -298,7 +294,9 @@ void BrowserTab::downloadBook(int bookId)
         return;
     }
 
+#ifndef Q_OS_MAC
     name_filters << tr("FictionBook2 files (*.fb2.zip) (*.fb2.zip)");
+#endif
     save_dialog.setNameFilters(name_filters);
     save_dialog.setDirectory(last_path);
     save_dialog.setAcceptMode(QFileDialog::AcceptSave);
